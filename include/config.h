@@ -34,12 +34,12 @@ typedef struct s_object
 	// double *(*intersect)(t_object *obj, t_ray *ray);
 }	t_object;
 
-typedef struct s_camera
-{
-	double cords[3];
-	double orient[3];
-	uint8_t	fov;
-}	t_camera;
+// typedef struct s_camera
+// {
+// 	double cords[3];
+// 	double orient[3];
+// 	uint8_t	fov;
+// }	t_camera;
 
 typedef struct s_lightSource
 {
@@ -55,7 +55,7 @@ typedef struct s_config
 	t_lightSource	ambientLight;
 	t_lightSource	lightPoint;
 
-	t_camera		camera;
+	// t_camera		camera;
 
 	t_list			*objects;
 }	t_config;
