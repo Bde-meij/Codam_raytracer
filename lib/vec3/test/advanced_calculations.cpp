@@ -98,7 +98,6 @@ TEST(libvec3, cross)
 	for (uint8_t i = 0; i < 3; i++)
 		EXPECT_DOUBLE_EQ(vec_res.data[i], test_res[i]);
 
-
 	vec1 = vec3_new(-242, 0 , 4.5131);
 	vec2 = vec3_new(242, 0.4241213, -0.01);
 	vec_res = vec3_cross(&vec1, &vec2);
@@ -108,7 +107,9 @@ TEST(libvec3, cross)
 	test_res[2] = vec1.data[0] * vec2.data[1] - vec1.data[1] * vec2.data[0];
 
 	for (uint8_t i = 0; i < 3; i++)
-		EXPECT_DOUBLE_EQ(vec_res.data[i], test_res[i]);		vec1 = vec3_new(-242, 0 , 4.5131);
+		EXPECT_DOUBLE_EQ(vec_res.data[i], test_res[i]);
+	
+	vec1 = vec3_new(-242, 0 , 4.5131);
 	vec2 = vec3_new(242, 0.4241213, -0.01);
 	vec_res = vec3_cross(&vec1, &vec2);
 	

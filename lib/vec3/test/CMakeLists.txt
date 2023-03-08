@@ -1,16 +1,23 @@
-set(TEST_EXECUTABLE_NAME unit_tests)
+set(TEST_EXECUTABLE_NAME vec3_unit_tests)
+
+set (CMAKE_CXX_STANDARD 14)
+set (CMAKE_CXX_STANDARD_REQUIRED ON)
+set (CMAKE_CXX_FLAGS "-Wall -Werror -Wextra")
 
 # Download GoogleTest
 # --------------------------------------------------
+include(GoogleTest)
 include(FetchContent)
+
 FetchContent_Declare(
-  googletest
-   URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+	googletest
+	DOWNLOAD_EXTRACT_TIMESTAMP
+	GIT_REPOSITORY https://github.com/google/googletest
+	GIT_TAG v1.13.0
 )
 FetchContent_MakeAvailable(googletest)
-include(GoogleTest)
 
-# Compile test executable
+# Tests
 # --------------------------------------------------
 add_executable(
 	${TEST_EXECUTABLE_NAME}
@@ -19,20 +26,18 @@ add_executable(
 	advanced_calculations.cpp
 )
 
-# Set C++ standard for test executable, googletest requires C++14
-# --------------------------------------------------
-set_property(TARGET ${TEST_EXECUTABLE_NAME} PROPERTY CXX_STANDARD 14)
+target_compile_options(${TEST_EXECUTABLE_NAME} PRIVATE -g -fsanitize=address)
+target_link_options(${TEST_EXECUTABLE_NAME} PRIVATE -g -fsanitize=address)
 
-# Link test executable with GoogleTest and vec3 library
-# --------------------------------------------------
 target_link_libraries(
 	${TEST_EXECUTABLE_NAME}
 	vec3
 	GTest::gtest_main
 )
 
-# Add tests to CTest
-# --------------------------------------------------
-gtest_discover_tests(${TEST_EXECUTABLE_NAME})
 
+# Add tests to CTest
+# Set working directory to the the testing folder so that the test can find their test files
+# --------------------------------------------------
+gtest_discover_tests(${TEST_EXECUTABLE_NAME} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} TEST_PREFIX "vec/")
 enable_testing()

@@ -1,39 +1,40 @@
+# -----------------------------------------------------------------------------
+# Codam Coding College, Amsterdam @ 2022-2023 by W2Wizard.
+# See README in the root project for more information.
+# -----------------------------------------------------------------------------
+
 set(TEST_EXECUTABLE_NAME unit_tests)
 
 # Download GoogleTest
 # --------------------------------------------------
+include(GoogleTest)
 include(FetchContent)
+
 FetchContent_Declare(
 	googletest
 	DOWNLOAD_EXTRACT_TIMESTAMP
-	URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+	GIT_REPOSITORY https://github.com/google/googletest
+	GIT_TAG v1.13.0
 )
-FetchContent_MakeAvailable(googletest)
-include(GoogleTest)
 
-# Compile test executable
+FetchContent_MakeAvailable(googletest)
+
 # --------------------------------------------------
 add_executable(
 	${TEST_EXECUTABLE_NAME}
 	tests.cpp
 )
 
-# Set C++ standard for test executable, googletest requires C++14
-# --------------------------------------------------
-set_property(TARGET ${TEST_EXECUTABLE_NAME} PROPERTY CXX_STANDARD 14)
-
-# Link test executable with GoogleTest and vec3 library
-# --------------------------------------------------
 target_link_libraries(
 	${TEST_EXECUTABLE_NAME}
 	GTest::gtest_main
 	mlx42
 )
 
-# Add tests to CTest
-# --------------------------------------------------
-gtest_discover_tests(${TEST_EXECUTABLE_NAME})
+set_property(TARGET ${TEST_EXECUTABLE_NAME} PROPERTY CXX_STANDARD 14)
 
-# Enable testing
+# Add tests to CTest
+# Set working directory to the the testing folder so that the test can find their test files
 # --------------------------------------------------
+gtest_discover_tests(${TEST_EXECUTABLE_NAME} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} TEST_PREFIX "MLX42.")
 enable_testing()

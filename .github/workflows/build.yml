@@ -7,7 +7,31 @@ on:
     branches: [ master ]
 
 jobs:
-  build-test-mac:
+  tests:
+    # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
+    # You can convert this to a matrix build if you need cross-platform coverage.
+    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: sudo apt-get install -y xorg-dev 
+      # MLX42 -> glfw -> xorg-dev
+    - name: Configure CMake
+      # Configure CMake in a 'build' subdirectory.
+      run: cmake -B ${{github.workspace}}/build -DBUILD_TESTS=yes -DVEC3_BUILD_TESTS=yes
+    - name: Build
+      # Build your program with the given configuration
+      run: cmake --build ${{github.workspace}}/build
+    - name: Test
+      # Execute tests defined by the CMake configuration.
+      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+      run: ctest --output-on-failure --test-dir ${{github.workspace}}/build
+
+  build-mac:
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
     # You can convert this to a matrix build if you need cross-platform coverage.
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
@@ -25,13 +49,7 @@ jobs:
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build
 
-    - name: Test
-      working-directory: ${{github.workspace}}/build
-      # Execute tests defined by the CMake configuration.
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest --output-on-failure --test-dir ${{github.workspace}}/build
-
-  build-test-linux:
+  build-linux:
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
     # You can convert this to a matrix build if you need cross-platform coverage.
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
@@ -50,9 +68,3 @@ jobs:
     - name: Build
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build
-
-    - name: Test
-      working-directory: ${{github.workspace}}/build
-      # Execute tests defined by the CMake configuration.
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -C ${{env.BUILD_TYPE}}
