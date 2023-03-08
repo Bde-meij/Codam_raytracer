@@ -5,6 +5,8 @@
 #define VEC3_TYPE double
 #endif
 
+#include <stdbool.h>
+
 typedef struct s_vec3
 {
 	VEC3_TYPE	data[3];
@@ -43,9 +45,10 @@ VEC3_TYPE vec3_lenght_squared_c(const t_vec3 lhs);
 t_vec3	vec3_normalize(const t_vec3 *vec);
 t_vec3	vec3_normalize_c(const t_vec3 vec);
 
+bool vec3_eq(const t_vec3 *lhs, const t_vec3 *rhs);
+bool vec3_eq_c(const t_vec3 lhs, const t_vec3 rhs);
 
 void 	vec3_print(const t_vec3 *vec);
 void 	vec3_print_c(const t_vec3 vec);
-
 
 #endif

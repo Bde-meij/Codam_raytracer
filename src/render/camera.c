@@ -15,9 +15,9 @@ t_camera *camera_new(const t_vec3 position, const t_vec3 direction, double aspec
 	t_camera *ret = malloc(sizeof(t_camera));
 	if (ret == NULL)
 		return (NULL);
-	t_vec3	w = vec3_normalize(&direction);
+	t_vec3	w = vec3_normalize_c(vec3_subtract_c(vec3_new(0, 0, 0), direction));
 	printf("w: "); vec3_print(&w);
-	t_vec3	u = vec3_normalize_c(vec3_cross(&camera_up, &w));
+	t_vec3	u = vec3_normalize_c(vec3_cross(&w, &camera_up));
 	printf("u: "); vec3_print(&u);
 	t_vec3	v = vec3_cross(&u, &w);
 	printf("v: "); vec3_print(&v);
@@ -33,8 +33,6 @@ t_camera *camera_new(const t_vec3 position, const t_vec3 direction, double aspec
 
 	t_vec3 half_horizontal = vec3_divide(&ret->horizontal, 2);
 	t_vec3 half_vertical = vec3_divide(&ret->vertical, 2);
-	printf("horizontal tmp: "); vec3_print(&half_horizontal);
-	printf("vertical tmp: "); vec3_print(&half_vertical);
 
 	ret->lower_left_corner = vec3_subtract_c(vec3_subtract_c(vec3_subtract_c(ret->origin, half_horizontal), half_vertical), w);
 	printf("corner: "); vec3_print(&ret->lower_left_corner);

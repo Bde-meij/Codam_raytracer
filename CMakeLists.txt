@@ -1,8 +1,12 @@
 cmake_minimum_required(VERSION 3.21.0)
 
 project(miniRT)
+
+set (SRCS_MAIN
+	src/main.c
+)
+
 set (SRCS
-    src/main.c
     src/render/render.c
     src/render/render_params.c
     src/render/camera.c
@@ -20,7 +24,7 @@ set (CMAKE_C_FLAGS_DEBUG "-g -fsanitize=address") #cmake -DCMAKE_BUILD_TYPE=DEBU
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON) #vscode include path checking
 
 #make executable with output name specified under EXEC_NAME and sources specified under SRCS
-add_executable(${EXEC_NAME} ${SRCS})
+add_executable(${EXEC_NAME} ${SRCS} ${SRCS_MAIN})
 target_include_directories(${EXEC_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_subdirectory(lib/libft)
@@ -36,4 +40,7 @@ target_link_libraries(${EXEC_NAME} PRIVATE mlx42)
 
 #-------------------- TESTING -------------------------------
 
-enable_testing()
+if ((PROJECT_NAME STREQUAL CMAKE_PROJECT_NAME AND BUILD_TESTS) OR MINIRT_BUILD_TESTS)
+	add_subdirectory(test)
+	enable_testing()
+endif()
