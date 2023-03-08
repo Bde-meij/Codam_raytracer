@@ -17,9 +17,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install GLFW
-      run: brew install glfw
-
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory.
       run: cmake -DCMAKE_BUILD_TYPE=Test -B ${{github.workspace}}/build
@@ -44,9 +41,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install GLFW
-      run: sudo apt-get install -y libglfw3-dev libglfw3
-
+    - name: Install dependencies
+      run: sudo apt-get install -y xorg-dev 
+      # MLX42 -> glfw -> xorg-dev
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory.
       run: cmake -B ${{github.workspace}}/build
