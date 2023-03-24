@@ -1,5 +1,6 @@
-#include "render.h"
+#include "render/render.h"
 #include <math.h>
+#include <stdlib.h>
 
 double to_degrees(double radians)
 {
@@ -11,7 +12,21 @@ double to_radians(double degrees)
 	return (degrees * (M_PI / 180.0));
 }
 
-uint32_t	rgb_to_rgba(const uint8_t	color[3])
+double screenx_to_modelx(uint32_t x, uint32_t width)
 {
-    return (color[0] << 24 | color[1] << 16 | color[2] << 8 | 0xFF);
+	if (width == 1)
+		return (0);
+	return ((double)x / (width));
+}
+
+double screeny_to_modely(uint32_t y, uint32_t height)
+{
+	if (height == 1)
+		return (0);
+	return (1 - ((double)y / (height)));
+}
+
+double random_double(void)
+{
+	return ((double)rand() / (double)RAND_MAX);
 }

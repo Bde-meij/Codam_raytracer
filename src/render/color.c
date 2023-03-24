@@ -1,0 +1,29 @@
+#include "render/color.h"
+
+void color_add(t_vec3 *light, const t_vec3 *color, const t_vec3 *add)
+{
+	*light = vec3_add_c(*light, vec3_multiply(color, add));
+}
+
+void color_scale(t_vec3 *light, double scale)
+{
+	*light = vec3_scalar(light, scale);
+}
+
+static double color_clamp(double n, double min, double max)
+{
+	if (n < min)
+		return (min);
+	if (n > max)
+		return (max);
+	return (n);
+}
+
+uint32_t color_to_uint32(t_vec3 *color)
+{
+	uint8_t r = color_clamp(color->data[0], 0, 1) * 255;
+	uint8_t g = color_clamp(color->data[1], 0, 1) * 255;
+	uint8_t b = color_clamp(color->data[2], 0, 1) * 255;
+
+	return (r << 24 | g << 16 | b << 8 | 0xFF);
+}

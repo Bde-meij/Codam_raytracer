@@ -36,6 +36,7 @@ target_link_libraries(
 	${TEST_EXECUTABLE_NAME}
 	vec3
 	ft
+	mlx42
 	GTest::gtest_main
 )
 

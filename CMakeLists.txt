@@ -12,16 +12,29 @@ set (SRCS
     src/render/camera.c
     src/render/ray.c
     src/render/utils.c
-    src/render/hittable/hittable.c
-    src/render/hittable/sphere.c
-    src/render/hittable/hittable_list.c
+    src/render/light.c
+    src/render/hittables/hittable.c
+    src/render/hittables/sphere.c
+    src/render/hittables/plane.c
+    src/render/hittables/hittable_array.c
+    src/render/color.c
+    src/render/hit_record.c
+    src/hooks.c
 )
 set (EXEC_NAME miniRT)
 
 #compiler settings:
 set (CMAKE_C_FLAGS "-Wall -Werror -Wextra")
 set (CMAKE_C_FLAGS_DEBUG "-g -fsanitize=address") #cmake -DCMAKE_BUILD_TYPE=DEBUG to add debug flags
+set (CMAKE_C_FLAGS_RELEASE "-O3 -Ofast") #cmake -DCMAKE_BUILD_TYPE=RELEASE to add release flags
 set (CMAKE_EXPORT_COMPILE_COMMANDS ON) #vscode include path checking
+
+# add -gprof flag to compile and link if GPROF is set to ON
+if (GPROF)
+    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pg")
+    set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pg")
+    set (CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -pg")
+endif()
 
 #make executable with output name specified under EXEC_NAME and sources specified under SRCS
 add_executable(${EXEC_NAME} ${SRCS} ${SRCS_MAIN})
@@ -36,7 +49,6 @@ target_link_libraries(${EXEC_NAME} PRIVATE ft)
 target_link_libraries(${EXEC_NAME} PRIVATE get_next_line)
 target_link_libraries(${EXEC_NAME} PRIVATE vec3)
 target_link_libraries(${EXEC_NAME} PRIVATE mlx42)
-
 
 #-------------------- TESTING -------------------------------
 

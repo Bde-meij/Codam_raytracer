@@ -15,6 +15,10 @@ set (SRCS
 	src/normalize.c
 	src/cross.c
 	src/compare.c
+	src/reverse.c
+	src/defines.c
+	src/reflect.c
+	src/clamp.c
 )
 
 add_library(vec3 STATIC ${SRCS})

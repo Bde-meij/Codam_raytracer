@@ -21,7 +21,7 @@ TEST(libvec3, set)
   t_vec3  vec;
   double data[] = {245251, -0.232441, -5131144};
 
-  vec3_set(&vec, data[0], data[1], data[2]);
+  vec = vec3_new(data[0], data[1], data[2]);
 
   for (uint8_t i = 0; i < 3; i++)
     EXPECT_DOUBLE_EQ(vec.data[i], data[i]);
