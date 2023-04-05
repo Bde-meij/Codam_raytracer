@@ -18,7 +18,7 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Install dependencies
-      run: sudo apt-get install -y xorg-dev 
+      run: sudo apt-get update && sudo apt-get install -y xorg-dev 
       # MLX42 -> glfw -> xorg-dev
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory.
@@ -60,7 +60,7 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Install dependencies
-      run: sudo apt-get install -y xorg-dev 
+      run: sudo apt-get update && sudo apt-get install -y xorg-dev 
       # MLX42 -> glfw -> xorg-dev
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory.

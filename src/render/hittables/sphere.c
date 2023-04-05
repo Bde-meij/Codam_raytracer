@@ -11,7 +11,7 @@ t_hittable_data sphere_new(const double radius)
 
 	sphere = malloc(sizeof(t_sphere));
 	if (sphere == NULL)
-		return ((t_hittable_data){.data = NULL});
+		return ((t_hittable_data){.data = NULL, .type = ERROR});
 	sphere->radius = radius;
 	return ((t_hittable_data){.data = sphere, .type = SPHERE});
 }
