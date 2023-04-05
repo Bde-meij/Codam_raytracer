@@ -1,20 +1,13 @@
 #ifndef LIGHT_H
-# define LIGHT_H
+#define LIGHT_H
 
-# include <vec3.h>
-# include "ray.h"
-# include "color.h"
-# include "hittables/hittable.h"
+#include "point_light.h"
+#include "ray.h"
+#include "hit_record.h"
+#include <vec3.h>
 
-typedef struct s_light
-{
-	t_vec3  origin;
-	t_vec3  color;
-}   t_light;
+t_vec3 calculate_specular_light(const t_point_light *light, const t_ray *light_ray, const t_hit_record *hit_record);
+t_vec3 calculate_light_factor(const t_point_light *light, const t_ray *light_ray, const t_hit_record *hit_record);
 
-t_light *light_new(const t_vec3 origin, const t_vec3 color, double brightness);
-void    light_destroy(t_light *light);
-
-t_ray light_generate_ray(const t_light *light, const t_hit_record *hit_record);
 
 #endif

@@ -60,6 +60,8 @@ bool cylinder_hit_caps(const t_hittable *hittable, const t_ray *ray, t_hit_recor
 	hit_record->distance = t;
 	hit_record->point = point;
 	hit_record->object = hittable;
+	hit_record->ray_origin = ray->origin;
+	hit_record->ray_direction = ray->direction;
 
 	hit_record_set_normal(hit_record, ray, &hittable->orientation);
 	return (true);

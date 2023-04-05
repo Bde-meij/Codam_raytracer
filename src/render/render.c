@@ -4,52 +4,21 @@
 
 #include "render/render.h"
 #include "render/hittables/hittable.h"
-#include "render/hittables/array.h"
+#include "render/light.h"
 
 #define HIDE_CURSOR "\e[?25l"
 #define SHOW_CURSOR "\e[?25h"
 
-t_vec3 calculate_specular_light(const t_light *light, const t_ray *light_ray, const t_ray *camera_ray, const t_hit_record *hit_record)
+t_vec3 ray_to_color(const t_ray *ray, const t_hittable_array *hittables, const t_point_light_array *light, const t_vec3 *ambient_light)
 {
-	t_vec3 specular_light = light->color;
-
-	t_vec3 reflected = vec3_reflect(&light_ray->direction, &hit_record->normal);
-	double specular_factor = vec3_dot(&reflected, &camera_ray->direction);
-
-	if (specular_factor > 0)
-		color_scale(&specular_light, pow(specular_factor, hit_record->object->specular));
-	else
-		color_scale(&specular_light, 0);
-	return (specular_light);
-}
-
-t_vec3 calculate_light_factor(const t_light *light, const t_ray *light_ray, const t_hit_record *hit_record)
-{
-	t_vec3 light_factor = light->color;
-	double light_dot_normal = vec3_dot(&hit_record->normal, &light_ray->direction);
-	if (light_dot_normal < 0)
-		light_dot_normal = 0;
-	color_scale(&light_factor, light_dot_normal);
-	return (light_factor);
-}
-
-t_vec3 ray_to_color(const t_ray *ray, const t_hittable_array *hittables, const t_light *light, const t_vec3 *ambient_light)
-{
+	(void)(ambient_light);
 	t_hit_record hit_record;
 	t_vec3 light_color = VEC3_ZERO;
 	if (hittable_array_hit(hittables, ray, &hit_record))
 	{
-		const t_vec3 *obj_color = &hit_record.object->color;
-		t_ray light_ray = light_generate_ray(light, &hit_record);
-		if (!hittable_array_hit(hittables, &light_ray, NULL))
-		{
-			t_vec3 point_light = calculate_light_factor(light, &light_ray, &hit_record);
-			color_add(&light_color, obj_color, &point_light);
-
-			t_vec3 specular_light = calculate_specular_light(light, &light_ray, ray, &hit_record);
-			color_add(&light_color, &light->color, &specular_light);
-		}
-		color_add(&light_color, obj_color, ambient_light);
+		// const t_vec3 *obj_color = &hit_record.object->color;
+		light_color = point_light_array_get_color(light, &hit_record, hittables);
+		// color_add(&light_color, obj_color, ambient_light);
 	}
 	return (light_color);
 }

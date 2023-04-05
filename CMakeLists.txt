@@ -13,6 +13,8 @@ set (SRCS
     src/render/ray.c
     src/render/utils.c
     src/render/light.c
+    src/render/point_light.c
+    src/render/point_light_array.c
     src/render/hittables/hittable.c
     src/render/hittables/sphere.c
     src/render/hittables/cylinder.c

@@ -54,6 +54,8 @@ bool sphere_hit(const t_hittable *hittable, const t_ray *ray, t_hit_record *hit_
 	hit_record->distance = root;
 	hit_record->point = ray_at(ray, root);
 	hit_record->object = hittable;
+	hit_record->ray_origin = ray->origin;
+	hit_record->ray_direction = ray->direction;
 	
 	const t_vec3 normal = vec3_divide_c(vec3_subtract(&hit_record->point, &hittable->center), ((t_sphere *)hittable->data.data)->radius);
 	hit_record_set_normal(hit_record, ray, &normal);

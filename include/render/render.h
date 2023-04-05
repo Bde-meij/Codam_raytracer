@@ -2,10 +2,9 @@
 # define RENDER_H
 
 #include "hittables/hittable.h"
-#include "hittables/array.h"
 #include "camera.h"
-#include "light.h"
-#include "vec3.h"
+#include "point_light.h"
+#include <vec3.h>
 
 #include <stdint.h>
 
@@ -16,7 +15,7 @@ typedef int (*t_putpixel_f)(uint32_t x, uint32_t y, t_vec3 color, void *data);
 typedef struct s_render_params
 {
 	t_hittable_array *hittables;
-	t_light 		*light;
+	t_point_light_array 		*light;
 	t_vec3	 		ambient_light;
 	t_camera		*camera;
 }	t_render_params;
