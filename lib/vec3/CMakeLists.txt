@@ -16,7 +16,6 @@ set (SRCS
 	src/cross.c
 	src/compare.c
 	src/reverse.c
-	src/defines.c
 	src/reflect.c
 	src/clamp.c
 )

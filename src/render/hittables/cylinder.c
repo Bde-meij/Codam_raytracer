@@ -7,9 +7,10 @@
 
 #include <stdio.h>
 
-t_hittable_data cylinder_new(const double radius, const double height)
+t_hittable_data	cylinder_new(const double radius, const double height)
 {
 	t_cylinder	*cylinder;
+
 	cylinder = malloc(sizeof(t_cylinder));
 	if (cylinder == NULL)
 		return ((t_hittable_data){.data = NULL, .type = ERROR});
@@ -18,7 +19,7 @@ t_hittable_data cylinder_new(const double radius, const double height)
 	return ((t_hittable_data){.data = cylinder, .type = CYLINDER});
 }
 
-void cylinder_destroy(void *data)
+void	cylinder_destroy(void *data)
 {
 	free(data);
 }
@@ -122,5 +123,9 @@ bool cylinder_hit(const t_hittable *hittable, const t_ray *ray, t_hit_record *hi
 	
 	t_vec3 normal = vec3_normalize(&QP);
 	hit_record_set_normal(hit_record, ray, &normal);
+
+	hit_record->ray_direction = ray->direction;
+	hit_record->ray_origin = ray->origin;
+
 	return (true);
 }

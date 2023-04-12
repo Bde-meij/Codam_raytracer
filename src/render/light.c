@@ -1,30 +1,34 @@
 #include "render/light.h"
-#include "render/render.h"
+#include <math.h>
 
-#include <stdlib.h>
-
-t_light *light_new(const t_vec3 origin, const t_vec3 color, double brightness)
+t_vec3	calculate_specular_light(const t_point_light *light, \
+	const t_ray *light_ray, const t_hit_record *hit_record)
 {
-	t_light *new;
+	t_vec3	specular_light;
+	t_vec3	reflected;
+	double	specular_factor;
 
-	new = malloc(sizeof(t_light));
-	if (new == NULL)
-		return (NULL);
-	new->origin = origin;
-	new->color = vec3_scalar(&color, brightness);
-	return (new);
+	specular_light = light->color;
+	reflected = vec3_reflect(&light_ray->direction, &hit_record->normal);
+	specular_factor = vec3_dot(&reflected, &hit_record->ray_direction);
+	if (specular_factor > 0)
+		color_scale(&specular_light, pow(specular_factor, \
+			hit_record->object->specular));
+	else
+		color_scale(&specular_light, 0);
+	return (specular_light);
 }
 
-void light_destroy(t_light *light)
+t_vec3	calculate_light_factor(const t_point_light *light, \
+	const t_ray *light_ray, const t_hit_record *hit_record)
 {
-	free(light);
-}
+	double	light_dot_normal;
+	t_vec3	light_factor;
 
-t_ray light_generate_ray(const t_light *light, const t_hit_record *hit_record)
-{
-	const t_vec3 direction = vec3_subtract(&light->origin, &hit_record->point);
-
-	const t_vec3 origin = vec3_add_c(hit_record->point, vec3_scalar(&hit_record->normal, 0.0001));
-
-	return (ray_new(&origin, &direction, 0, vec3_lenght(&direction)));
+	light_dot_normal = vec3_dot(&hit_record->normal, &light_ray->direction);
+	light_factor = light->color;
+	if (light_dot_normal < 0)
+		light_dot_normal = 0;
+	color_scale(&light_factor, light_dot_normal);
+	return (light_factor);
 }

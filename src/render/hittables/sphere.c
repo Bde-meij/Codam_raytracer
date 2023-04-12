@@ -5,7 +5,7 @@
 #include <math.h>
 #include <float.h>
 
-t_hittable_data sphere_new(const double radius)
+t_hittable_data	sphere_new(const double radius)
 {
 	t_sphere	*sphere;
 
@@ -16,7 +16,7 @@ t_hittable_data sphere_new(const double radius)
 	return ((t_hittable_data){.data = sphere, .type = SPHERE});
 }
 
-void sphere_destroy(void *data)
+void	sphere_destroy(void *data)
 {
 	free(data);
 }
@@ -57,6 +57,9 @@ bool sphere_hit(const t_hittable *hittable, const t_ray *ray, t_hit_record *hit_
 	
 	const t_vec3 normal = vec3_divide_c(vec3_subtract(&hit_record->point, &hittable->center), ((t_sphere *)hittable->data.data)->radius);
 	hit_record_set_normal(hit_record, ray, &normal);
+
+	hit_record->ray_direction = ray->direction;
+	hit_record->ray_origin = ray->origin;
 
 	return (true);
 }

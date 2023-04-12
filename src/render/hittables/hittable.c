@@ -8,22 +8,24 @@
 #include <float.h>
 #include <stdbool.h>
 
-typedef void (*t_hittable_destroy_f)(void *);
-typedef bool (*t_hittable_hit_f)(const t_hittable *, const t_ray *, t_hit_record *);
+typedef void						(*t_hittable_destroy_f)(void *);
+typedef bool						(*t_hittable_hit_f)(const t_hittable *, \
+	const t_ray *, t_hit_record *);
 
 static const t_hittable_destroy_f	g_hittable_destroy_f[] = {
-	[SPHERE] = sphere_destroy,
-	[CYLINDER] = cylinder_destroy,
-	[PLANE] = plane_destroy
+[SPHERE] = sphere_destroy,
+[CYLINDER] = cylinder_destroy,
+[PLANE] = plane_destroy
 };
 
-static const t_hittable_hit_f	g_hittable_hit_f[] = {
-	[SPHERE] = sphere_hit,
-	[CYLINDER] = cylinder_hit,
-	[PLANE] = plane_hit
+static const t_hittable_hit_f		g_hittable_hit_f[] = {
+[SPHERE] = sphere_hit,
+[CYLINDER] = cylinder_hit,
+[PLANE] = plane_hit
 };
 
-t_hittable	*hittable_new(const t_vec3 center, const t_vec3 orientation, const t_vec3 color, double specular, t_hittable_data data)
+t_hittable	*hittable_new(const t_vec3 center, const t_vec3 orientation, \
+	const t_vec3 color, t_hittable_data data)
 {
 	t_hittable	*new;
 
@@ -36,11 +38,11 @@ t_hittable	*hittable_new(const t_vec3 center, const t_vec3 orientation, const t_
 	new->orientation = vec3_normalize(&orientation);
 	new->color = color;
 	new->data = data;
-	new->specular = specular;
+	new->specular = 10;
 	return (new);
 }
 
-void hittable_destroy(t_hittable *hittable)
+void	hittable_destroy(t_hittable *hittable)
 {
 	if (hittable == NULL)
 		return ;
@@ -48,7 +50,8 @@ void hittable_destroy(t_hittable *hittable)
 	free(hittable);
 }
 
-bool hittable_hit(const t_hittable *hittable, const t_ray *ray, t_hit_record *hit_record)
+bool	hittable_hit(const t_hittable *hittable, const t_ray *ray, \
+	t_hit_record *hit_record)
 {
 	return (g_hittable_hit_f[hittable->data.type](hittable, ray, hit_record));
 }

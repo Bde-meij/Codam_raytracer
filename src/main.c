@@ -1,9 +1,9 @@
 #include "MLX42/MLX42.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "render/hittables/hittable.h"
 #include "render/hittables/sphere.h"
 #include "render/hittables/cylinder.h"
-#include "render/hittables/array.h"
 #include "render/hittables/plane.h"
 
 #include "hooks.h"
@@ -18,16 +18,14 @@ t_render_params	*sample_config(void)
 	t_render_params *render_params = render_params_new();
 
 	render_params->camera = camera_new(vec3_new(0, 0, 0), vec3_new(0, 0, 1), 70);
-	render_params->light = light_new(vec3_new(0, 0, 0), vec3_new(1, 1, 1), 0.8);
+	render_params->light =  point_light_new(vec3_new(-1, 0, 1), vec3_new(1, 1, 1), 0.8);
 	render_params->ambient_light = vec3_scalar_c(vec3_new(1, 1, 1), 0.2);
 	render_params->hittables = hittable_array_new(2); //TODO: protect null
 
 	// hittable_array_append(&render_params->hittables, hittable_new(vec3_new(0, 0, 5), (t_vec3){}, vec3_new(0, 0, 1), 10, sphere_new(1)));
-	hittable_array_append(&render_params->hittables, hittable_new(vec3_new(0, 0, 5), vec3_new(0, 1, 1), vec3_new(1, 0, 0), 10, cylinder_new(1, 1)));
-	hittable_array_append(&render_params->hittables, hittable_new(vec3_new(0, 0, 10), vec3_new(0, 0, 1), vec3_new(0, 1, 0), 20, plane_new())); //TODO: protect null
-	hittable_array_append(&render_params->hittables, hittable_new(vec3_new(0, 0, -10), vec3_new(0, 0, 1), vec3_new(0, 1, 0), 20, plane_new())); //TODO: protect null
+	hittable_array_append(&render_params->hittables, hittable_new(vec3_new(2, 0, 5), vec3_new(0, 1, 1), vec3_new(1, 0, 0), sphere_new(1)));
+	hittable_array_append(&render_params->hittables, hittable_new(vec3_new(0, 0, 10), vec3_new(0, 0, 1), vec3_new(0, 1, 0), plane_new())); //TODO: protect null
 	
-
 	return (render_params);
 }
 
