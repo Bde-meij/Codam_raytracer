@@ -22,6 +22,12 @@ void	camera_update(t_camera *camera, const t_vec3 position, \
 	camera->position = position;
 	camera->direction = direction;
 	camera->hfov = hfov;
+	if (vec3_eq_c(camera->direction, vec3_new(0, 1, 0)))
+		camera->up = vec3_new(0, 0, -1);
+	else if (vec3_eq_c(camera->direction, vec3_new(0, -1, 0)))
+		camera->up = vec3_new(0, 0, 1);
+	else
+		camera->up = vec3_new(0, 1, 0);
 }
 
 void	camera_prepare(t_camera *camera, double aspect_ratio)
@@ -29,7 +35,7 @@ void	camera_prepare(t_camera *camera, double aspect_ratio)
 	const double	viewport_width = 2.0 * tan(to_radians(camera->hfov) / 2);
 	const double	viewport_height = viewport_width / aspect_ratio;
 	const t_vec3	w = vec3_normalize_c(vec3_reverse(&camera->direction));
-	const t_vec3	u = vec3_normalize_c(vec3_cross_c(w, vec3_new(0, 1, 0)));
+	const t_vec3	u = vec3_normalize_c(vec3_cross(&w, &camera->up));
 	const t_vec3	v = vec3_cross(&u, &w);
 
 	camera->horizontal = vec3_scalar(&u, viewport_width);

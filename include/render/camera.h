@@ -8,6 +8,7 @@ typedef struct s_camera
 {
 	t_vec3	position;
 	t_vec3	direction;
+	t_vec3	up;
 	double	hfov;
 
 	t_vec3	horizontal;
