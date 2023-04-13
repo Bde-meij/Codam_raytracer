@@ -25,14 +25,13 @@ void	display_imagedata(t_hook_data *hook_data)
 	}
 }
 
-int	putpixel_f(uint32_t x, uint32_t y, t_vec3 color, void *data)
+void	putpixel_f(uint32_t x, uint32_t y, t_vec3 color, void *data)
 {
 	t_hook_data	*hook_data;
 
 	hook_data = data;
 	hook_data->image_data[y * hook_data->width + x] = \
 	vec3_add(&hook_data->image_data[y * hook_data->width + x], &color);
-	return (0);
 }
 
 void	renderhook(void *data)
@@ -51,7 +50,8 @@ void	renderhook(void *data)
 		hook_data->current_ray_per_pixel = 0;
 		return ;
 	}
-	if (hook_data->current_ray_per_pixel >= hook_data->max_ray_per_pixel)
+	if (hook_data->current_ray_per_pixel >= hook_data->max_ray_per_pixel \
+		|| hook_data->width == 0 || hook_data->height == 0)
 		return ;
 	render(hook_data->render_params, (t_pixelcallback){.function = putpixel_f, \
 	.data = hook_data}, hook_data->width, hook_data->height);

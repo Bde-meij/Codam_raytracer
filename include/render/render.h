@@ -10,7 +10,7 @@
 
 # define RENDER_SHADOW_BIAS 0.0001
 
-typedef int	(*t_pixelcallback_f)(uint32_t x, uint32_t y, \
+typedef void	(*t_pixelcallback_f)(uint32_t x, uint32_t y, \
 	t_vec3 color, void *data);
 
 typedef struct s_render_params

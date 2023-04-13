@@ -1,13 +1,9 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
 #include "render/render.h"
 #include "render/hittables/hittable.h"
 #include "render/light.h"
-
-#define HIDE_CURSOR "\e[?25l"
-#define SHOW_CURSOR "\e[?25h"
 
 t_vec3	ray_to_color(const t_ray *ray, const t_hittable_array *hittables, \
 		const t_point_light *light, const t_vec3 *ambient_light)
@@ -19,7 +15,8 @@ t_vec3	ray_to_color(const t_ray *ray, const t_hittable_array *hittables, \
 	if (hittable_array_hit(hittables, ray, &hit_record))
 	{
 		light_color = point_light_get_color(light, &hit_record, hittables);
-		color_add(&light_color, &hit_record.object->color, ambient_light);
+		color_add(&light_color, &hit_record.object->color, \
+			ambient_light);
 	}
 	return (light_color);
 }
@@ -29,37 +26,41 @@ double	jitter(uint32_t max)
 	return (random_double() / (double)max);
 }
 
+t_vec3	trace_pixel(t_render_params *render_params, double pct_x, double pct_y)
+{
+	t_ray			ray;
+	t_vec3			color;
+
+	ray = camera_generate_ray(render_params->camera, pct_x, pct_y);
+	color = ray_to_color(&ray, render_params->hittables, \
+		render_params->light, &render_params->ambient_light);
+	color = vec3_clamp(&color, 0, 1);
+	return (color);
+}
+
 int	render(t_render_params *render_params, \
-			t_pixelcallback pixelcallback, uint32_t width, uint32_t height)
+			t_pixelcallback pixelcallback, uint32_t w, uint32_t h)
 {
 	uint32_t	x;
 	uint32_t	y;
 	t_vec3		color;
-	t_ray		ray;
 
-	if (width == 0 || height == 0)
+	if (w == 0 || h == 0)
 		return (1);
-	camera_prepare(render_params->camera, (double)width / (double)height);
+
+	camera_prepare(render_params->camera, (double)w / (double)h);
 	x = 0;
-	printf(HIDE_CURSOR);
-	while (x < width)
+	while (x < w)
 	{
 		y = 0;
-		while (y < height)
+		while (y < h)
 		{
-			ray = camera_generate_ray(render_params->camera, screenx_to_modelx(x, width) + jitter(width), screeny_to_modely(y, height) + jitter(height));
-			color = ray_to_color(&ray, render_params->hittables, render_params->light, &render_params->ambient_light);
-			pixelcallback.function(x, y, vec3_clamp(&color, 0, 1), pixelcallback.data);
+			color = trace_pixel(render_params, screenx_to_modelx(x, w) + \
+				jitter(w), screeny_to_modely(y, h) + jitter(h));
+			pixelcallback.function(x, y, color, pixelcallback.data);
 			y++;
-		}
-		if ((height / 100) != 0 && x % (height / 100) == 0)
-		{
-			printf("\rrendering %d%%", (int)((double)(x * height + y) / (width * height) * 100));
-			fflush(stdout);
 		}
 		x++;
 	}
-	printf("\rrendering done\n" SHOW_CURSOR);
-	fflush(stdout);
 	return (0);
 }
