@@ -18,6 +18,7 @@ set (SRCS
     src/render/hittables/sphere.c
     src/render/hittables/cylinder.c
     src/render/hittables/plane.c
+    src/render/hittables/circle.c
     src/render/hittables/hittable_array.c
     src/render/color.c
     src/render/hit_record.c

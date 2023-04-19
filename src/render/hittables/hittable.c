@@ -2,6 +2,7 @@
 #include "render/hittables/sphere.h"
 #include "render/hittables/cylinder.h"
 #include "render/hittables/plane.h"
+#include "render/hittables/circle.h"
 #include "render/ray.h"
 
 #include <libft.h>
@@ -15,13 +16,15 @@ typedef bool						(*t_hittable_hit_f)(const t_hittable *, \
 static const t_hittable_destroy_f	g_hittable_destroy_f[] = {
 [SPHERE] = sphere_destroy,
 [CYLINDER] = cylinder_destroy,
-[PLANE] = plane_destroy
+[PLANE] = plane_destroy,
+[CIRCLE] = circle_destroy
 };
 
 static const t_hittable_hit_f		g_hittable_hit_f[] = {
 [SPHERE] = sphere_hit,
 [CYLINDER] = cylinder_hit,
-[PLANE] = plane_hit
+[PLANE] = plane_hit,
+[CIRCLE] = circle_hit
 };
 
 t_hittable	*hittable_new(const t_vec3 center, const t_vec3 orientation, \
