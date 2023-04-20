@@ -24,6 +24,15 @@ enum e_hittable_object_type
 	CIRCLE,
 };
 
+typedef struct s_abc_variables
+{
+	t_vec3	relative_raypos;
+	double	a;
+	double	b;
+	double	c;
+	double	discriminant;
+}	t_abc_vars;
+
 struct s_hittable_data
 {
 	void			*data;

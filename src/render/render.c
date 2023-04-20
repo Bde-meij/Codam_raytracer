@@ -6,7 +6,7 @@
 #include "render/light.h"
 
 t_vec3	ray_to_color(const t_ray *ray, const t_hittable_array *hittables, \
-		const t_point_light *light, const t_vec3 *ambient_light)
+		const t_point_light *light, const t_ambient *ambient)
 {
 	t_hit_record	hit_record;
 	t_vec3			light_color;
@@ -16,7 +16,7 @@ t_vec3	ray_to_color(const t_ray *ray, const t_hittable_array *hittables, \
 	{
 		light_color = point_light_get_color(light, &hit_record, hittables);
 		color_add(&light_color, &hit_record.object->color, \
-			ambient_light);
+			ambient_color(ambient));
 	}
 	return (light_color);
 }
@@ -33,7 +33,7 @@ t_vec3	trace_pixel(t_render_params *render_params, double pct_x, double pct_y)
 
 	ray = camera_generate_ray(render_params->camera, pct_x, pct_y);
 	color = ray_to_color(&ray, render_params->hittables, \
-		render_params->light, &render_params->ambient_light);
+		render_params->light, render_params->ambient);
 	color = vec3_clamp(&color, 0, 1);
 	return (color);
 }

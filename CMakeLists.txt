@@ -7,6 +7,11 @@ set (SRCS_MAIN
 )
 
 set (SRCS
+    src/parsing/string_utilities.c
+    src/parsing/check_filmset.c
+    src/parsing/check_file_args.c
+    src/parsing/check_objects.c
+    src/parsing/error_handling.c
     src/render/render.c
     src/render/render_params.c
     src/render/camera.c
@@ -14,6 +19,7 @@ set (SRCS
     src/render/utils.c
     src/render/light.c
     src/render/point_light.c
+    src/render/ambient.c
     src/render/hittables/hittable.c
     src/render/hittables/sphere.c
     src/render/hittables/cylinder.c

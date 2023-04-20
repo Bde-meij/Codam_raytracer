@@ -1,61 +1,66 @@
 #include "MLX42/MLX42.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include "render/hittables/hittable.h"
 #include "render/hittables/sphere.h"
-#include "render/hittables/cylinder.h"
 #include "render/hittables/plane.h"
 
 #include "hooks.h"
+#include "fcntl.h"
+#include "parse.h"
 
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 1000
 
 #define MAX_RAY_PER_PIXEL 100
 
-t_render_params	*sample_config(void)
+void	init_hook_data(t_hook_data *hook_data, mlx_t *mlx, \
+t_render_params *render_params, mlx_image_t *img)
 {
-	t_render_params *render_params = render_params_new();
-
-	render_params->camera = camera_new(vec3_new(0, 0, 0), vec3_new(0, 0, 1), 70);
-	render_params->light =  point_light_new(vec3_new(-1, 0, 1), vec3_new(1, 1, 1), 0.8);
-	render_params->ambient_light = vec3_scalar_c(vec3_new(1, 1, 1), 0.2);
-	render_params->hittables = hittable_array_new(2); //TODO: protect null
-
-	// hittable_array_append(&render_params->hittables, hittable_new(vec3_new(0, 0, 5), (t_vec3){}, vec3_new(0, 0, 1), 10, sphere_new(1)));
-	hittable_array_append(&render_params->hittables, hittable_new(vec3_new(2, 0, 5), vec3_new(0, 1, 1), vec3_new(1, 0, 0), sphere_new(1)));
-	hittable_array_append(&render_params->hittables, hittable_new(vec3_new(0, 0, 10), vec3_new(0, 0, 1), vec3_new(0, 1, 0), plane_new())); //TODO: protect null
-	
-	return (render_params);
+	hook_data->mlx = mlx;
+	hook_data->width = SCREEN_WIDTH;
+	hook_data->height = SCREEN_HEIGHT;
+	hook_data->render_params = render_params;
+	hook_data->image = img;
+	hook_data->image_data = NULL;
+	hook_data->max_ray_per_pixel = MAX_RAY_PER_PIXEL;
 }
 
-int32_t	main(void)
+void	run_program(mlx_t *mlx, mlx_image_t *img, \
+t_render_params *render_params)
 {
-	mlx_t	*mlx;
-	mlx_image_t	*img;
+	t_hook_data		hook_data;
 
-
-	mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "MLX42", true);
-	if (!mlx)
-		exit(EXIT_FAILURE);
-	img = mlx_new_image(mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	mlx_image_to_window(mlx, img, 0, 0);
-	t_hook_data hook_data = {
-		.mlx = mlx,
-		.width = SCREEN_WIDTH,
-		.height = SCREEN_HEIGHT,
-		.render_params = sample_config(),
-		.image = img,
-		.image_data = NULL,
-		.max_ray_per_pixel = MAX_RAY_PER_PIXEL
-	};
-
+	init_hook_data(&hook_data, mlx, render_params, img);
 	mlx_key_hook(mlx, escapehook, &hook_data);
 	mlx_resize_hook(mlx, resizehook, &hook_data);
 	mlx_loop_hook(mlx, renderhook, &hook_data);
 	mlx_loop(mlx);
-	render_params_destroy(hook_data.render_params);
+	render_params_destroy(render_params);
 	mlx_terminate(mlx);
+}
 
+int32_t	main(int ac, char **av)
+{
+	int				fd;
+	mlx_t			*mlx;
+	mlx_image_t		*img;
+	t_render_params	*render_params;
+
+	if (ac != 2)
+		return (print_error(N_ARGS_ER), EXIT_FAILURE);
+	if (check_file(av[1]))
+		return (print_error(WRONGFILE), EXIT_FAILURE);
+	fd = open(av[1], 'r');
+	if (fd < 0)
+		return (print_error(WRONGFILE), EXIT_FAILURE);
+	render_params = render_params_new();
+	if (check_file_args(fd, render_params))
+		return (EXIT_FAILURE);
+	mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "MLX42", true);
+	img = mlx_new_image(mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	if (!mlx)
+		return (EXIT_FAILURE);
+	run_program(mlx, img, render_params);
 	return (EXIT_SUCCESS);
 }

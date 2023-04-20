@@ -37,6 +37,7 @@ target_link_libraries(
 	vec3
 	ft
 	mlx42
+	get_next_line
 	GTest::gtest_main
 )
 

@@ -13,7 +13,7 @@ t_point_light	*point_light_new(const t_vec3 origin, \
 	if (new == NULL)
 		return (NULL);
 	new->origin = origin;
-	new->color = vec3_scalar(&color, brightness);
+	new->color = vec3_scalar_c(vec3_divide_c(color, 255), brightness);
 	return (new);
 }
 

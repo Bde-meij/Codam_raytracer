@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   libft.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: jvan-kra <jvan-kra@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2021/10/19 15:45:17 by jvan-kra      #+#    #+#                 */
-/*   Updated: 2021/12/01 19:58:48 by jvan-kra      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   libft.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bde-meij <bde-meij@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/19 15:45:17 by jvan-kra          #+#    #+#             */
+/*   Updated: 2023/02/16 16:34:18 by bde-meij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 int		ft_atoi(const char *str);
+double	ft_atof(const char *str);
 char	*ft_strdup(const char *s1);
 char	*ft_strndup(const char *s1, size_t n);
 char	*ft_strcpy(char *dst, const char *src);

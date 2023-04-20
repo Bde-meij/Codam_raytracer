@@ -4,6 +4,7 @@
 # include "hittables/hittable.h"
 # include "camera.h"
 # include "point_light.h"
+# include "ambient.h"
 # include <vec3.h>
 
 # include <stdint.h>
@@ -17,7 +18,7 @@ typedef struct s_render_params
 {
 	t_hittable_array	*hittables;
 	t_point_light		*light;
-	t_vec3				ambient_light;
+	t_ambient			*ambient;
 	t_camera			*camera;
 }	t_render_params;
 
