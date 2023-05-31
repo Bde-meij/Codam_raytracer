@@ -1,7 +1,7 @@
 #ifndef RENDER_H
 # define RENDER_H
 
-# include "hittables/hittable.h"
+# include "hittable_array.h"
 # include "camera.h"
 # include "point_light.h"
 # include "ambient.h"

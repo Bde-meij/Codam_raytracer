@@ -2,8 +2,7 @@
 #include <math.h>
 
 #include "render/render.h"
-#include "render/hittables/hittable.h"
-#include "render/light.h"
+#include "render/color.h"
 
 t_vec3	ray_to_color(const t_ray *ray, const t_hittable_array *hittables, \
 		const t_point_light *light, const t_ambient *ambient)
@@ -15,7 +14,7 @@ t_vec3	ray_to_color(const t_ray *ray, const t_hittable_array *hittables, \
 	if (hittable_array_hit(hittables, ray, &hit_record))
 	{
 		light_color = point_light_get_color(light, &hit_record, hittables);
-		color_add(&light_color, &hit_record.object->color, \
+		color_add(&light_color, &hit_record.material.color, \
 			ambient_color(ambient));
 	}
 	return (light_color);

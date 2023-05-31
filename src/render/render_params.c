@@ -1,5 +1,4 @@
 #include "render/render.h"
-#include "render/point_light.h"
 #include <stddef.h>
 #include <stdlib.h>
 

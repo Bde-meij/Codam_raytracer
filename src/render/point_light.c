@@ -1,6 +1,6 @@
 #include "render/point_light.h"
-#include "render/render.h"
 #include "render/light.h"
+#include "render/color.h"
 
 #include <stdlib.h>
 
@@ -45,7 +45,7 @@ t_vec3	point_light_get_color(const t_point_light *light, \
 		return (vec3_new(0, 0, 0));
 	light_color = vec3_new(0, 0, 0);
 	point_light = calculate_light_factor(light, &ray, hit_record);
-	color_add(&light_color, &hit_record->object->color, &point_light);
+	color_add(&light_color, &hit_record->material.color, &point_light);
 	specular_light = calculate_specular_light(light, &ray, hit_record);
 	color_add(&light_color, &light->color, &specular_light);
 	return (light_color);

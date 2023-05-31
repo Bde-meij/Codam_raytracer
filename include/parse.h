@@ -5,11 +5,10 @@
 # include <stdlib.h>
 # include <libft.h>
 # include <stdio.h>
-# include "render/hittables/sphere.h"
 # include "render/ambient.h"
-# include "render/hittables/plane.h"
-# include "render/hittables/cylinder.h"
 # include "render/render.h"
+# include "render/material.h"
+# include "render/hittable.h"
 
 typedef enum e_parse_errors
 {

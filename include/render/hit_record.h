@@ -2,13 +2,12 @@
 # define HIT_RECORD_H
 
 # include <vec3.h>
-# include "hittables/hittable.h"
-
-typedef struct s_hittable	t_hittable;
+# include "render/material.h"
+# include "render/ray.h"
 
 typedef struct s_hit_record
 {
-	const t_hittable	*object;
+	t_material			material;
 	t_vec3				point;
 	double				distance;
 	t_vec3				normal;

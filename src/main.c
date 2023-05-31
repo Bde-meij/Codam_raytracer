@@ -1,8 +1,6 @@
 #include "MLX42/MLX42.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include "render/hittables/sphere.h"
-#include "render/hittables/plane.h"
 
 #include "hooks.h"
 #include <fcntl.h>

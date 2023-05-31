@@ -1,35 +1,26 @@
-#include "render/hittables/cylinder.h"
+#include "render/hittable.h"
 
-#include <stddef.h>
-#include <stdlib.h>
 #include <math.h>
-#include <float.h>
+#include <stddef.h>
 
-#include <stdio.h>
-
-t_hittable_data	cylinder_new(const double radius, const double height)
+t_cylinder	cylinder_new(const t_vec3 center, const t_vec3 orientation, \
+	const double radius, const double height)
 {
-	t_cylinder	*cylinder;
+	t_cylinder	cylinder;
 
-	cylinder = malloc(sizeof(t_cylinder));
-	if (cylinder == NULL)
-		return ((t_hittable_data){.data = NULL, .type = ERROR});
-	cylinder->radius = radius;
-	cylinder->height = height;
-	return ((t_hittable_data){.data = cylinder, .type = CYLINDER});
+	cylinder.center = center;
+	cylinder.orientation = orientation;
+	cylinder.radius = radius;
+	cylinder.height = height;
+	return (cylinder);
 }
 
-void	cylinder_destroy(void *data)
+bool cylinder_hit_caps(const t_cylinder *cylinder, const t_ray *ray, t_hit_record *hit_record)
 {
-	free(data);
-}
-
-bool cylinder_hit_caps(const t_hittable *hittable, const t_ray *ray, t_hit_record *hit_record)
-{
-	t_vec3 center_bot = vec3_add_c(hittable->center, vec3_scalar(&hittable->orientation, ((t_cylinder *)hittable->data.data)->height / 2));
-	t_vec3 center_top = vec3_subtract_c(hittable->center, vec3_scalar(&hittable->orientation, ((t_cylinder *)hittable->data.data)->height / 2));
-	double t_bot = vec3_dot_c(vec3_subtract(&center_bot, &ray->origin), hittable->orientation) / vec3_dot(&ray->direction, &hittable->orientation);
-	double t_top = vec3_dot_c(vec3_subtract(&center_top, &ray->origin), hittable->orientation) / vec3_dot(&ray->direction, &hittable->orientation);
+	t_vec3 center_bot = vec3_add_c(cylinder->center, vec3_scalar(&cylinder->orientation, cylinder->height / 2));
+	t_vec3 center_top = vec3_subtract_c(cylinder->center, vec3_scalar(&cylinder->orientation, cylinder->height / 2));
+	double t_bot = vec3_dot_c(vec3_subtract(&center_bot, &ray->origin), cylinder->orientation) / vec3_dot(&ray->direction, &cylinder->orientation);
+	double t_top = vec3_dot_c(vec3_subtract(&center_top, &ray->origin), cylinder->orientation) / vec3_dot(&ray->direction, &cylinder->orientation);
 	double t;
 	t_vec3 center;
 	if (t_bot < t_top)
@@ -46,54 +37,52 @@ bool cylinder_hit_caps(const t_hittable *hittable, const t_ray *ray, t_hit_recor
 		return (false);
 	t_vec3 point = ray_at(ray, t);
 	t_vec3 CP = vec3_subtract(&center, &point);
-	if (vec3_lenght(&CP) > ((t_cylinder *)hittable->data.data)->radius)
+	if (vec3_lenght(&CP) > cylinder->radius)
 		return (false);
 	if (hit_record == NULL)
 		return (true);
 	hit_record->distance = t;
 	hit_record->point = point;
-	hit_record->object = hittable;
-	hit_record_set_normal(hit_record, ray, &hittable->orientation);
+	hit_record_set_normal(hit_record, ray, &cylinder->orientation);
 	return (true);
 }
 
-void	initialize_cylinder_abc(const t_hittable *hittable, const t_ray *ray, \
+void	initialize_cylinder_abc(const t_cylinder *cylinder, const t_ray *ray, \
 t_abc_vars *abc_vars)
 {
-	abc_vars->relative_raypos = vec3_subtract(&ray->origin, &hittable->center);
+	abc_vars->relative_raypos = vec3_subtract(&ray->origin, &cylinder->center);
 	abc_vars->a = vec3_dot(&ray->direction, &ray->direction) - \
-	vec3_dot(&ray->direction, &hittable->orientation) * \
-	vec3_dot(&ray->direction, &hittable->orientation);
+	vec3_dot(&ray->direction, &cylinder->orientation) * \
+	vec3_dot(&ray->direction, &cylinder->orientation);
 	abc_vars->b = 2 * (vec3_dot(&ray->direction, &abc_vars->relative_raypos) - \
-	(vec3_dot(&ray->direction, &hittable->orientation) * \
-	vec3_dot(&abc_vars->relative_raypos, &hittable->orientation)));
+	(vec3_dot(&ray->direction, &cylinder->orientation) * \
+	vec3_dot(&abc_vars->relative_raypos, &cylinder->orientation)));
 	abc_vars->c = vec3_dot(&abc_vars->relative_raypos, &abc_vars->relative_raypos) - \
-	(vec3_dot(&abc_vars->relative_raypos, &hittable->orientation) * vec3_dot(&abc_vars->relative_raypos, \
-	&hittable->orientation)) - \
-	pow(((t_cylinder *)hittable->data.data)->radius, 2);
+	(vec3_dot(&abc_vars->relative_raypos, &cylinder->orientation) * vec3_dot(&abc_vars->relative_raypos, \
+	&cylinder->orientation)) - \
+	pow(cylinder->radius, 2);
 }
 
-void	cylinder_hit_recorder(const t_hittable *hittable, const t_ray *ray, \
+void	cylinder_hit_recorder(const t_ray *ray, \
 t_hit_record *hit_record, double root, t_vec3 point, t_vec3 QP)
 {
 	hit_record->distance = root;
 	hit_record->point = point;
-	hit_record->object = hittable;
 	t_vec3 normal = vec3_normalize(&QP);
 	hit_record_set_normal(hit_record, ray, &normal);
 	hit_record->ray_direction = ray->direction;
 	hit_record->ray_origin = ray->origin;
 }
 
-bool cylinder_hit(const t_hittable *hittable, const t_ray *ray, \
+bool cylinder_hit(const t_cylinder *cylinder, const t_ray *ray, \
 t_hit_record *hit_record)
 {
 	t_abc_vars	abc_vars;
 	double		root;
 
-	if (cylinder_hit_caps(hittable, ray, hit_record))
+	if (cylinder_hit_caps(cylinder, ray, hit_record))
 		return (true);
-	initialize_cylinder_abc(hittable, ray, &abc_vars);
+	initialize_cylinder_abc(cylinder, ray, &abc_vars);
 	abc_vars.discriminant = pow(abc_vars.b, 2) - (4 * abc_vars.a * abc_vars.c);
 	if (abc_vars.discriminant < 0)
 		return (false);
@@ -108,12 +97,12 @@ t_hit_record *hit_record)
 	//raakpunt
 	t_vec3 point = ray_at(ray, root);
 	//center tot raakpunt
-	t_vec3 CP = vec3_subtract(&point, &hittable->center);
+	t_vec3 CP = vec3_subtract(&point, &cylinder->center);
 	//lengte van die lijn
 	double CP_len = vec3_lenght(&CP);
 	//verschil hoogte center en raakpunt
-	double CQ_len = sqrt((CP_len * CP_len) - (((t_cylinder *)hittable->data.data)->radius * ((t_cylinder *)hittable->data.data)->radius));
-	if (CQ_len > ((t_cylinder *)hittable->data.data)->height / 2)
+	double CQ_len = sqrt((CP_len * CP_len) - (cylinder->radius * cylinder->radius));
+	if (CQ_len > cylinder->height / 2)
 		return (false);
 	if (hit_record == NULL)
 		return (true);
@@ -122,11 +111,11 @@ t_hit_record *hit_record)
 	// The intersection is on the cylinder surface.
 
 	//vector van cq-len
-	t_vec3 CQ = vec3_scalar(&hittable->orientation, CQ_len);
+	t_vec3 CQ = vec3_scalar(&cylinder->orientation, CQ_len);
 	//midden van cylinder op hoogte raakpunt 1
-	t_vec3 Q1 = vec3_add(&hittable->center, &CQ);
+	t_vec3 Q1 = vec3_add(&cylinder->center, &CQ);
 	//midden van cylinder op hoogte raakpunt 2
-	t_vec3 Q2 = vec3_subtract(&hittable->center, &CQ);
+	t_vec3 Q2 = vec3_subtract(&cylinder->center, &CQ);
 	//midden naar raakpunt 1
 	t_vec3 QP1 = vec3_subtract(&point, &Q1);
 	//midden naar raakpunt 2
@@ -140,6 +129,6 @@ t_hit_record *hit_record)
 		QP = QP1;
 	else
 		QP = QP2;
-	cylinder_hit_recorder(hittable, ray, hit_record, root, point, QP);
+	cylinder_hit_recorder(ray, hit_record, root, point, QP);
 	return (true);
 }

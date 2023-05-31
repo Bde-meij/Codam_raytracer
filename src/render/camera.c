@@ -1,7 +1,7 @@
 #include "render/camera.h"
 #include "render/render.h"
 #include <math.h>
-#include <libft.h>
+#include <stdlib.h>
 #include <float.h>
 
 t_camera	*camera_new(const t_vec3 position, \

@@ -1,60 +1,55 @@
-#include <render/hittables/hittable.h>
-#include "render/hittables/sphere.h"
-#include "render/hittables/cylinder.h"
-#include "render/hittables/plane.h"
-#include "render/hittables/circle.h"
+#include "render/hittable.h"
 #include "render/ray.h"
 
 #include <libft.h>
-#include <float.h>
 #include <stdbool.h>
+#include <stdarg.h>
 
-typedef void						(*t_hittable_destroy_f)(void *);
-typedef bool						(*t_hittable_hit_f)(const t_hittable *, \
-	const t_ray *, t_hit_record *);
-
-static const t_hittable_destroy_f	g_hittable_destroy_f[] = {
-[SPHERE] = sphere_destroy,
-[CYLINDER] = cylinder_destroy,
-[PLANE] = plane_destroy,
-[CIRCLE] = circle_destroy
-};
-
-static const t_hittable_hit_f		g_hittable_hit_f[] = {
-[SPHERE] = sphere_hit,
-[CYLINDER] = cylinder_hit,
-[PLANE] = plane_hit,
-[CIRCLE] = circle_hit
-};
-
-t_hittable	*hittable_new(const t_vec3 center, const t_vec3 orientation, \
-	const t_vec3 color, t_hittable_data data)
+t_hittable	hittable_new(const t_hittable_type type, t_material material, ...)
 {
-	t_hittable	*new;
+	t_hittable		hittable;
+	va_list			args;
 
-	if (data.type == ERROR)
-		return (NULL);
-	new = malloc(sizeof(t_hittable));
-	if (new == NULL)
-		return (NULL);
-	new->center = center;
-	new->orientation = vec3_normalize(&orientation);
-	new->color = vec3_divide(&color, 255);
-	new->data = data;
-	new->specular = 10;
-	return (new);
-}
-
-void	hittable_destroy(t_hittable *hittable)
-{
-	if (hittable == NULL)
-		return ;
-	g_hittable_destroy_f[hittable->data.type](hittable->data.data);
-	free(hittable);
+	hittable.type = type;
+	hittable.material = material;
+	va_start(args, material);
+	if (type == SPHERE)
+		hittable.data.sphere = sphere_new(va_arg(args, t_vec3), \
+			va_arg(args, double));
+	else if (type == CYLINDER)
+		hittable.data.cylinder = cylinder_new(va_arg(args, t_vec3), \
+			va_arg(args, t_vec3), va_arg(args, double), va_arg(args, double));
+	else if (type == PLANE)
+		hittable.data.plane = plane_new(va_arg(args, t_vec3), \
+			va_arg(args, t_vec3));
+	else if (type == CIRCLE)
+		hittable.data.circle = circle_new(va_arg(args, t_vec3), \
+			va_arg(args, t_vec3), va_arg(args, double));
+	else
+	{
+		ft_putstr_fd("Error: hittable_new(): invalid type\n", 1);
+		hittable.type = ERROR;
+	}
+	return (hittable);
 }
 
 bool	hittable_hit(const t_hittable *hittable, const t_ray *ray, \
 	t_hit_record *hit_record)
 {
-	return (g_hittable_hit_f[hittable->data.type](hittable, ray, hit_record));
+	bool	hit_anything;
+
+	hit_anything = false;
+	if (hittable->type == SPHERE)
+		hit_anything = sphere_hit(&hittable->data.sphere, ray, hit_record);
+	else if (hittable->type == CYLINDER)
+		hit_anything = cylinder_hit(&hittable->data.cylinder, ray, hit_record);
+	else if (hittable->type == PLANE)
+		hit_anything = plane_hit(&hittable->data.plane, ray, hit_record);
+	else if (hittable->type == CIRCLE)
+		hit_anything = circle_hit(&hittable->data.circle, ray, hit_record);
+	else
+		ft_putstr_fd("Error: hittable_hit(): invalid type\n", 1);
+	if (hit_anything && hit_record != NULL)
+		hit_record->material = hittable->material;
+	return (hit_anything);
 }

@@ -1,35 +1,31 @@
-#include "render/hittables/plane.h"
+#include "render/hittable.h"
 #include <stddef.h>
-#include <stdlib.h>
-#include <math.h>
-#include <float.h>
 
-t_hittable_data	plane_new(void)
+t_plane	plane_new(const t_vec3 center, const t_vec3 orientation)
 {
-	return ((t_hittable_data){.data = NULL, .type = PLANE});
+	t_plane	plane;
+
+	plane.center = center;
+	plane.orientation = orientation;
+	return (plane);
 }
 
-void	plane_destroy(void *data)
-{
-	(void)data;
-}
 
-bool	plane_hit(const t_hittable *hittable, const t_ray *ray, \
+bool	plane_hit(const t_plane *plane, const t_ray *ray, \
 	t_hit_record *hit_record)
 {
 	double	t;
 
-	t = vec3_dot_c(vec3_subtract(&hittable->center, \
-	&ray->origin), hittable->orientation) / \
-	vec3_dot(&ray->direction, &hittable->orientation);
+	t = vec3_dot_c(vec3_subtract(&plane->center, \
+	&ray->origin), plane->orientation) / \
+	vec3_dot(&ray->direction, &plane->orientation);
 	if (t < ray->min_distance || t > ray->max_distance)
 		return (false);
 	if (hit_record == NULL)
 		return (true);
 	hit_record->distance = t;
 	hit_record->point = ray_at(ray, t);
-	hit_record->object = hittable;
-	hit_record_set_normal(hit_record, ray, &hittable->orientation);
+	hit_record_set_normal(hit_record, ray, &plane->orientation);
 	hit_record->ray_direction = ray->direction;
 	hit_record->ray_origin = ray->origin;
 	return (true);

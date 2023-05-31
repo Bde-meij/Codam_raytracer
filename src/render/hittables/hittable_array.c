@@ -1,6 +1,4 @@
-#include "render/hittables/hittable.h"
-#include <float.h>
-#include <stdlib.h>
+#include "render/hittable_array.h"
 #include <libft.h>
 
 t_hittable_array	*hittable_array_new(const size_t capacity)
@@ -12,7 +10,7 @@ t_hittable_array	*hittable_array_new(const size_t capacity)
 		return (NULL);
 	array->capacity = capacity;
 	array->size = 0;
-	array->hittables = ft_calloc(capacity, sizeof(t_hittable *));
+	array->hittables = malloc(capacity * sizeof(t_hittable));
 	if (!array->hittables)
 	{
 		free(array);
@@ -23,33 +21,23 @@ t_hittable_array	*hittable_array_new(const size_t capacity)
 
 void	hittable_array_destroy(t_hittable_array *array)
 {
-	size_t	i;
-
 	if (array == NULL)
 		return ;
-	i = 0;
-	while (i < array->size)
-	{
-		hittable_destroy(array->hittables[i]);
-		i++;
-	}
 	free(array->hittables);
 	free(array);
 }
 
 t_hittable_array	*hittable_array_append(t_hittable_array **array, \
-	t_hittable *hittable)
+	t_hittable hittable)
 {
-	t_hittable	**tmp;
+	t_hittable	*tmp;
 
-	if (hittable == NULL)
-		return (hittable_array_destroy(*array), *array = NULL, NULL);
 	if ((*array)->size >= (*array)->capacity)
 	{
 		tmp = (*array)->hittables;
 		(*array)->hittables = ft_realloc((*array)->hittables, \
-			(*array)->capacity * sizeof(t_hittable *), \
-			(*array)->capacity * 2 * sizeof(t_hittable *));
+			(*array)->capacity * sizeof(t_hittable), \
+			(*array)->capacity * 2 * sizeof(t_hittable));
 		if (!(*array)->hittables)
 		{
 			(*array)->hittables = tmp;
@@ -76,7 +64,7 @@ bool	hittable_array_hit(const t_hittable_array *list, const t_ray *ray, \
 	closest.distance = ray->max_distance;
 	while (i < list->size)
 	{
-		if (hittable_hit(list->hittables[i], ray, &tmp))
+		if (hittable_hit(&list->hittables[i], ray, &tmp))
 		{
 			if (hit_record == NULL)
 				return (true);

@@ -35,7 +35,7 @@ int	check_sphere(char **str, t_render_params *render_params)
 	origin = convert_array_to_vector(str[1]);
 	color = convert_array_to_vector(str[3]);
 	protec(hittable_array_append(&render_params->hittables, \
-	hittable_new(origin, (t_vec3){}, color, sphere_new(radius))));
+	hittable_new(SPHERE, material_new(color), origin, radius)));
 	return (0);
 }
 
@@ -54,9 +54,8 @@ int	check_plane(char **str, t_render_params *render_params)
 		check_value_range(str[3], 0.0, 255.0, 3))
 		return (print_error(OUTOFRANGE), 1);
 	protec(hittable_array_append(&render_params->hittables, \
-	hittable_new(convert_array_to_vector(str[1]), \
-	convert_array_to_vector(str[2]), \
-	convert_array_to_vector(str[3]), plane_new())));
+	hittable_new(PLANE, material_new(convert_array_to_vector(str[3])), \
+		convert_array_to_vector(str[1]), convert_array_to_vector(str[2]))));
 	return (0);
 }
 
@@ -85,9 +84,9 @@ int	check_cylinder(char **str, t_render_params *render_params)
 	radius = ft_atof(str[3]) * 0.5;
 	height = ft_atof(str[4]);
 	protec(hittable_array_append(&render_params->hittables, \
-	hittable_new(convert_array_to_vector(str[1]), \
-	convert_array_to_vector(str[2]), \
-	convert_array_to_vector(str[5]), cylinder_new(radius, height))));
+	hittable_new(CYLINDER, material_new(convert_array_to_vector(str[5])), \
+	convert_array_to_vector(str[1]), convert_array_to_vector(str[2]), \
+		radius, height)));
 	return (0);
 }
 
