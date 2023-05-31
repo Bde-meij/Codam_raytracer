@@ -5,7 +5,7 @@
 #include "render/hittables/plane.h"
 
 #include "hooks.h"
-#include "fcntl.h"
+#include <fcntl.h>
 #include "parse.h"
 
 #define SCREEN_WIDTH 1000
@@ -51,7 +51,7 @@ int32_t	main(int ac, char **av)
 		return (print_error(N_ARGS_ER), EXIT_FAILURE);
 	if (check_file(av[1]))
 		return (print_error(WRONGFILE), EXIT_FAILURE);
-	fd = open(av[1], 'r');
+	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 		return (print_error(WRONGFILE), EXIT_FAILURE);
 	render_params = render_params_new();
