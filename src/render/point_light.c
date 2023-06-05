@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   point_light.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jvan-kra <jvan-kra@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/06/05 16:17:41 by jvan-kra      #+#    #+#                 */
+/*   Updated: 2023/06/05 16:17:41 by jvan-kra      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "render/point_light.h"
 #include "render/light.h"
 #include "render/color.h"
@@ -30,7 +42,7 @@ t_ray	point_light_generate_ray(const t_point_light *light, \
 	const t_vec3	origin = vec3_add_c(hit_record->point, \
 		vec3_scalar(&hit_record->normal, 0.0001));
 
-	return (ray_new(&origin, &direction, 0, vec3_lenght(&direction)));
+	return (ray_new(&origin, &direction, 0, vec3_length(&direction)));
 }
 
 t_vec3	point_light_get_color(const t_point_light *light, \

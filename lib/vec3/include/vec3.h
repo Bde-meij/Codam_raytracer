@@ -58,11 +58,11 @@ VEC3_TYPE	vec3_dot_c(const t_vec3 lhs, const t_vec3 rhs);
 t_vec3		vec3_cross(const t_vec3 *lhs, const t_vec3 *rhs);
 t_vec3		vec3_cross_c(const t_vec3 lhs, const t_vec3 rhs);
 
-VEC3_TYPE	vec3_lenght(const t_vec3 *lhs);
-VEC3_TYPE	vec3_lenght_c(const t_vec3 lhs);
+VEC3_TYPE	vec3_length(const t_vec3 *lhs);
+VEC3_TYPE	vec3_length_c(const t_vec3 lhs);
 
-VEC3_TYPE	vec3_lenght_squared(const t_vec3 *lhs);
-VEC3_TYPE	vec3_lenght_squared_c(const t_vec3 lhs);
+VEC3_TYPE	vec3_length_squared(const t_vec3 *lhs);
+VEC3_TYPE	vec3_length_squared_c(const t_vec3 lhs);
 
 t_vec3		vec3_normalize(const t_vec3 *vec);
 t_vec3		vec3_normalize_c(const t_vec3 vec);

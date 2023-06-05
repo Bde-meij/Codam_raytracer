@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   hittable.h                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jvan-kra <jvan-kra@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/06/05 16:18:32 by jvan-kra      #+#    #+#                 */
+/*   Updated: 2023/06/05 16:18:32 by jvan-kra      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef HITTABLE_H
 # define HITTABLE_H
 
@@ -8,7 +20,6 @@
 # include  "render/material.h"
 # include "render/ray.h"
 # include "render/hit_record.h"
-
 
 typedef struct s_sphere
 {
@@ -23,6 +34,14 @@ typedef struct s_circle
 	double	radius;
 }	t_circle;
 
+typedef struct s_pipe
+{
+	t_vec3	center;
+	t_vec3	orientation;
+	double	radius;
+	double	height;
+}	t_pipe;
+
 typedef struct s_plane
 {
 	t_vec3	center;
@@ -31,10 +50,8 @@ typedef struct s_plane
 
 typedef struct s_cylinder
 {
-	t_vec3	center;
-	t_vec3	orientation;
-	double	radius;
-	double	height;
+	t_pipe		pipe;
+	t_circle	endcaps[2];
 }	t_cylinder;
 
 typedef enum e_hittable_type
@@ -44,6 +61,7 @@ typedef enum e_hittable_type
 	CYLINDER,
 	PLANE,
 	CIRCLE,
+	PIPE
 }	t_hittable_type;
 
 typedef union u_hittable_data
@@ -52,6 +70,7 @@ typedef union u_hittable_data
 	t_cylinder		cylinder;
 	t_plane			plane;
 	t_circle		circle;
+	t_pipe			pipe;
 }	t_hittable_data;
 
 typedef struct s_hittable
@@ -82,6 +101,11 @@ bool				plane_hit(const t_plane *data, const t_ray *ray, \
 t_circle			circle_new(const t_vec3 center, const t_vec3 orientation, \
 						const double radius);
 bool				circle_hit(const t_circle *data, const t_ray *ray, \
+						t_hit_record *hit_record);
+
+t_pipe				pipe_new(const t_vec3 center, const t_vec3 orientation, \
+						const double radius, const double height);
+bool				pipe_hit(const t_pipe *data, const t_ray *ray, \
 						t_hit_record *hit_record);
 
 typedef struct s_abc_variables

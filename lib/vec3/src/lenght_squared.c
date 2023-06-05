@@ -14,12 +14,12 @@
 
 #include <stdint.h>
 
-VEC3_TYPE	vec3_lenght_squared(const t_vec3 *lhs)
+VEC3_TYPE	vec3_length_squared(const t_vec3 *lhs)
 {
 	return (vec3_dot(lhs, lhs));
 }
 
-VEC3_TYPE	vec3_lenght_squared_c(const t_vec3 lhs)
+VEC3_TYPE	vec3_length_squared_c(const t_vec3 lhs)
 {
-	return (vec3_lenght_squared(&lhs));
+	return (vec3_length_squared(&lhs));
 }

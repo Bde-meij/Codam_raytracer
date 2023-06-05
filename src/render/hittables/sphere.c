@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   sphere.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jvan-kra <jvan-kra@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/06/05 16:17:25 by jvan-kra      #+#    #+#                 */
+/*   Updated: 2023/06/05 16:17:25 by jvan-kra      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "render/hittable.h"
 #include <math.h>
 #include <stddef.h>
@@ -15,9 +27,9 @@ void	initialize_sphere_abc(const t_sphere *sphere, const t_ray *ray, \
 t_abc_vars *abc_vars)
 {
 	abc_vars->relative_raypos = vec3_subtract(&ray->origin, &sphere->center);
-	abc_vars->a = vec3_lenght_squared(&ray->direction);
+	abc_vars->a = vec3_length_squared(&ray->direction);
 	abc_vars->b = vec3_dot(&abc_vars->relative_raypos, &ray->direction);
-	abc_vars->c = vec3_lenght_squared(&abc_vars->relative_raypos) - \
+	abc_vars->c = vec3_length_squared(&abc_vars->relative_raypos) - \
 	pow(sphere->radius, 2);
 	abc_vars->discriminant = pow(abc_vars->b, 2) - abc_vars->a * abc_vars->c;
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   hit_record.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jvan-kra <jvan-kra@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/06/05 16:17:35 by jvan-kra      #+#    #+#                 */
+/*   Updated: 2023/06/05 16:17:35 by jvan-kra      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "render/hit_record.h"
 
 void	hit_record_set_normal(t_hit_record *record, const t_ray *ray, \

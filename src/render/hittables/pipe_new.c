@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   color.h                                            :+:    :+:            */
+/*   pipe_new.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jvan-kra <jvan-kra@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/06/05 16:18:26 by jvan-kra      #+#    #+#                 */
-/*   Updated: 2023/06/05 16:18:26 by jvan-kra      ########   odam.nl         */
+/*   Created: 2023/06/05 16:17:20 by jvan-kra      #+#    #+#                 */
+/*   Updated: 2023/06/05 16:17:20 by jvan-kra      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COLOR_H
-# define COLOR_H
+#include "render/hittable.h"
 
-# include <vec3.h>
-# include <stdint.h>
+t_pipe	pipe_new(const t_vec3 center, const t_vec3 orientation, \
+	const double radius, const double height)
+{
+	t_pipe	pipe;
 
-void		color_add(t_vec3 *light, const t_vec3 *color, const t_vec3 *add);
-void		color_scale(t_vec3 *light, double scale);
-
-uint32_t	color_to_uint32(t_vec3 *color);
-
-#endif
+	pipe.center = center;
+	pipe.orientation = vec3_normalize(&orientation);
+	pipe.radius = radius;
+	pipe.height = height;
+	return (pipe);
+}

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   color.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jvan-kra <jvan-kra@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/06/05 16:17:33 by jvan-kra      #+#    #+#                 */
+/*   Updated: 2023/06/05 16:17:33 by jvan-kra      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "render/color.h"
 
 void	color_add(t_vec3 *light, const t_vec3 *color, const t_vec3 *add)

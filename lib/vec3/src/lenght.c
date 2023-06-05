@@ -14,12 +14,12 @@
 
 #include <math.h>
 
-VEC3_TYPE	vec3_lenght(const t_vec3 *lhs)
+VEC3_TYPE	vec3_length(const t_vec3 *lhs)
 {
-	return (sqrt(vec3_lenght_squared(lhs)));
+	return (sqrt(vec3_length_squared(lhs)));
 }
 
-VEC3_TYPE	vec3_lenght_c(const t_vec3 lhs)
+VEC3_TYPE	vec3_length_c(const t_vec3 lhs)
 {
-	return (vec3_lenght(&lhs));
+	return (vec3_length(&lhs));
 }

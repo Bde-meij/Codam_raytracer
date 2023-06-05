@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   hittable.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jvan-kra <jvan-kra@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/06/05 16:17:13 by jvan-kra      #+#    #+#                 */
+/*   Updated: 2023/06/05 16:17:13 by jvan-kra      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "render/hittable.h"
 #include "render/ray.h"
 
@@ -25,11 +37,9 @@ t_hittable	hittable_new(const t_hittable_type type, t_material material, ...)
 	else if (type == CIRCLE)
 		hittable.data.circle = circle_new(va_arg(args, t_vec3), \
 			va_arg(args, t_vec3), va_arg(args, double));
-	else
-	{
-		ft_putstr_fd("Error: hittable_new(): invalid type\n", 1);
-		hittable.type = ERROR;
-	}
+	else if (type == PIPE)
+		hittable.data.pipe = pipe_new(va_arg(args, t_vec3), \
+			va_arg(args, t_vec3), va_arg(args, double), va_arg(args, double));
 	return (hittable);
 }
 
@@ -47,6 +57,8 @@ bool	hittable_hit(const t_hittable *hittable, const t_ray *ray, \
 		hit_anything = plane_hit(&hittable->data.plane, ray, hit_record);
 	else if (hittable->type == CIRCLE)
 		hit_anything = circle_hit(&hittable->data.circle, ray, hit_record);
+	else if (hittable->type == PIPE)
+		hit_anything = pipe_hit(&hittable->data.pipe, ray, hit_record);
 	else
 		ft_putstr_fd("Error: hittable_hit(): invalid type\n", 1);
 	if (hit_anything && hit_record != NULL)

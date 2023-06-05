@@ -1,5 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   hittable_array.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jvan-kra <jvan-kra@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/06/05 16:17:11 by jvan-kra      #+#    #+#                 */
+/*   Updated: 2023/06/05 16:17:11 by jvan-kra      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "render/hittable_array.h"
 #include <libft.h>
+#include <math.h>
 
 t_hittable_array	*hittable_array_new(const size_t capacity)
 {
@@ -69,7 +82,7 @@ bool	hittable_array_hit(const t_hittable_array *list, const t_ray *ray, \
 			if (hit_record == NULL)
 				return (true);
 			hit_anything = true;
-			if (tmp.distance <= closest.distance)
+			if (fabs(tmp.distance) <= fabs(closest.distance))
 				closest = tmp;
 		}
 		i++;

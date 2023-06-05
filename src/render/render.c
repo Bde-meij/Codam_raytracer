@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   render.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jvan-kra <jvan-kra@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/06/05 16:17:48 by jvan-kra      #+#    #+#                 */
+/*   Updated: 2023/06/05 16:17:48 by jvan-kra      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include <math.h>
 
@@ -46,7 +58,6 @@ int	render(t_render_params *render_params, \
 
 	if (w == 0 || h == 0)
 		return (1);
-
 	camera_prepare(render_params->camera, (double)w / (double)h);
 	x = 0;
 	while (x < w)

@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   light.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jvan-kra <jvan-kra@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/06/05 16:17:37 by jvan-kra      #+#    #+#                 */
+/*   Updated: 2023/06/05 16:17:37 by jvan-kra      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "render/light.h"
 #include "render/color.h"
 #include <math.h>
-
 
 t_vec3	calculate_specular_light(const t_point_light *light, \
 	const t_ray *light_ray, const t_hit_record *hit_record)
