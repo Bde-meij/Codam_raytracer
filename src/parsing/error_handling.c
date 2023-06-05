@@ -6,7 +6,7 @@
 /*   By: bde-meij <bde-meij@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 18:46:02 by bde-meij          #+#    #+#             */
-/*   Updated: 2023/04/20 14:48:16 by bde-meij         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:48:59 by bde-meij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@ static const char	*g_error_messages[] = {
 	"Unusable file, '*.rt' and access rights required",
 	"Value is out of range",
 	"Cannot identify object",
-	"object incomplete",
+	"An object is incorrectly formatted",
+	"Does not contain proper filmset (C, A and L)",
 	"Malloc has failed us",
 	"Argument was NULL"
 };
 
 void	print_error(t_parse_errors error_code)
 {
+	printf("Error\n");
 	printf("%s\n", g_error_messages[error_code]);
 }
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parse.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: jvan-kra <jvan-kra@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/06/05 16:18:47 by jvan-kra      #+#    #+#                 */
-/*   Updated: 2023/06/05 16:18:47 by jvan-kra      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parse.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bde-meij <bde-meij@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/05 16:18:47 by jvan-kra          #+#    #+#             */
+/*   Updated: 2023/06/05 17:44:47 by bde-meij         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef enum e_parse_errors
 	OUTOFRANGE,
 	OBJECT_ER,
 	INCOMPLETE,
+	NO_FILMSET,
 	MALLOC_ER,
 	NULL_ARG
 }	t_parse_errors;
