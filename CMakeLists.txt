@@ -23,6 +23,8 @@ set (SRCS
     src/render/hittables/hittable.c
     src/render/hittables/sphere.c
     src/render/hittables/cylinder.c
+    src/render/hittables/cone_new.c
+    src/render/hittables/cone.c
     src/render/hittables/plane.c
     src/render/hittables/circle.c
     src/render/hittables/pipe_new.c

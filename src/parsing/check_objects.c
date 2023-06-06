@@ -90,6 +90,28 @@ int	check_cylinder(char **str, t_render_params *render_params)
 	return (0);
 }
 
+int	check_cone(char **str, t_render_params *render_params)
+{
+	double	radius;
+	double	height;
+
+	if (ft_dstrlen(str) != 6)
+		return (print_error(INCOMPLETE), 1);
+	if (check_value_range(str[1], -DBL_MAX, DBL_MAX, 3) || \
+		check_value_range(str[2], -1.0, 1.0, 3) || \
+		check_value_range(str[3], -DBL_MAX, DBL_MAX, 1) || \
+		check_value_range(str[4], -DBL_MAX, DBL_MAX, 1) || \
+		check_value_range(str[5], 0.0, 255.0, 3))
+		return (print_error(OUTOFRANGE), 1);
+	radius = ft_atof(str[3]) * 0.5;
+	height = ft_atof(str[4]);
+	protec(hittable_array_append(&render_params->hittables, \
+	hittable_new(CONE, material_new(convert_array_to_vector(str[5])), \
+	convert_array_to_vector(str[1]), convert_array_to_vector(str[2]), \
+		radius, height)));
+	return (0);
+}
+
 // ∗ identifier: co
 // ∗ x,y,z coordinates of the center of the cone: 50.0,0.0,20.6
 // ∗ 3d normalized vector of axis of cone. In range [-1,1] for each x,y,z axis:

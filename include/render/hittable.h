@@ -42,6 +42,14 @@ typedef struct s_pipe
 	double	height;
 }	t_pipe;
 
+typedef struct s_cone
+{
+	t_vec3	center;
+	t_vec3	orientation;
+	double	radius;
+	double	height;
+}	t_cone;
+
 typedef struct s_plane
 {
 	t_vec3	center;
@@ -61,7 +69,8 @@ typedef enum e_hittable_type
 	CYLINDER,
 	PLANE,
 	CIRCLE,
-	PIPE
+	PIPE,
+	CONE
 }	t_hittable_type;
 
 typedef union u_hittable_data
@@ -71,6 +80,7 @@ typedef union u_hittable_data
 	t_plane			plane;
 	t_circle		circle;
 	t_pipe			pipe;
+	t_cone			cone;
 }	t_hittable_data;
 
 typedef struct s_hittable
@@ -92,6 +102,11 @@ bool				sphere_hit(const t_sphere *data, const t_ray *ray, \
 t_cylinder			cylinder_new(const t_vec3 center, const t_vec3 orientation, \
 						double radius, double height);
 bool				cylinder_hit(const t_cylinder *data, const t_ray *ray, \
+						t_hit_record *hit_record);
+
+t_cone				cone_new(const t_vec3 center, const t_vec3 orientation, \
+						double radius, double height);
+bool				cone_hit(const t_cone *data, const t_ray *ray, \
 						t_hit_record *hit_record);
 
 t_plane				plane_new(const t_vec3 center, const t_vec3 orientation);

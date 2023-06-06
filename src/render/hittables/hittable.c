@@ -40,6 +40,9 @@ t_hittable	hittable_new(const t_hittable_type type, t_material material, ...)
 	else if (type == PIPE)
 		hittable.data.pipe = pipe_new(va_arg(args, t_vec3), \
 			va_arg(args, t_vec3), va_arg(args, double), va_arg(args, double));
+	else if (type == CONE)
+		hittable.data.cone = cone_new(va_arg(args, t_vec3), \
+			va_arg(args, t_vec3), va_arg(args, double), va_arg(args, double));
 	return (hittable);
 }
 
@@ -59,6 +62,8 @@ bool	hittable_hit(const t_hittable *hittable, const t_ray *ray, \
 		hit_anything = circle_hit(&hittable->data.circle, ray, hit_record);
 	else if (hittable->type == PIPE)
 		hit_anything = pipe_hit(&hittable->data.pipe, ray, hit_record);
+	else if (hittable->type == CONE)
+		hit_anything = cone_hit(&hittable->data.cone, ray, hit_record);
 	else
 		ft_putstr_fd("Error: hittable_hit(): invalid type\n", 1);
 	if (hit_anything && hit_record != NULL)

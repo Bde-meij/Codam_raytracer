@@ -58,7 +58,7 @@ int		check_light(char **str, t_render_params *render_params);
 int		check_cylinder(char **str, t_render_params *render_params);
 int		check_sphere(char **str, t_render_params *render_params);
 int		check_plane(char **str, t_render_params *render_params);
-// int		check_cone(char **str, t_render_params *render_params);
+int		check_cone(char **str, t_render_params *render_params);
 
 // string_utilities
 t_vec3	convert_array_to_vector(char *str);
