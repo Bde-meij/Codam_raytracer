@@ -60,6 +60,8 @@ void	renderhook(void *data)
 		free(hook_data->image_data);
 		hook_data->image_data = ft_calloc(hook_data->width * \
 		hook_data->height, sizeof(t_vec3));
+		if (hook_data->image_data == NULL)
+			mlx_close_window(hook_data->mlx);
 		hook_data->resize = false;
 		hook_data->current_ray_per_pixel = 0;
 		return ;
