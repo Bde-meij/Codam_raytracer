@@ -21,6 +21,7 @@ t_render_params	*render_params_new(void)
 	render_params = malloc(sizeof(t_render_params));
 	if (render_params == NULL)
 		return (NULL);
+	render_params->program_name = NULL;
 	render_params->hittables = hittable_array_new(10);
 	if (render_params->hittables == NULL)
 	{
@@ -34,6 +35,7 @@ void	render_params_destroy(t_render_params *render_params)
 {
 	if (render_params == NULL)
 		return ;
+	free(render_params->program_name);
 	hittable_array_destroy(render_params->hittables);
 	free(render_params);
 }

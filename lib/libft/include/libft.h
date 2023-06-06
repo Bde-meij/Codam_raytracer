@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bde-meij <bde-meij@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/19 15:45:17 by jvan-kra          #+#    #+#             */
-/*   Updated: 2023/02/16 16:34:18 by bde-meij         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   libft.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: bde-meij <bde-meij@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2021/10/19 15:45:17 by jvan-kra      #+#    #+#                 */
+/*   Updated: 2023/02/16 16:34:18 by bde-meij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ char	*ft_strntrim(char const *s1, char const *set, size_t n);
 char	*ft_strchrset(const char *s, const char *set);
 
 char	*ft_strjoin3(char const *s1, char const *s2, char const *s3);
+
+char	*ft_basename(const char *input);
 
 //-----------BONUS---------------
 

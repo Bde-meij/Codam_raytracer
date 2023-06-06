@@ -48,7 +48,7 @@ int	check_file(char *file_name)
 	if (!file_name)
 		return (1);
 	len = ft_strlen(file_name);
-	i = len;
+	i = len - 1;
 	while (file_name[i] != '/' && i > 0)
 		i--;
 	if (file_name[i] == '/')

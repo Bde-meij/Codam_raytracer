@@ -28,6 +28,7 @@ typedef void	(*t_pixelcallback_f)(uint32_t x, uint32_t y, \
 
 typedef struct s_render_params
 {
+	char				*program_name;
 	t_hittable_array	*hittables;
 	t_point_light		light;
 	t_ambient			ambient;

@@ -35,26 +35,34 @@ t_render_params *render_params, mlx_image_t *img)
 	hook_data->max_ray_per_pixel = MAX_RAY_PER_PIXEL;
 }
 
-void	run_program(mlx_t *mlx, mlx_image_t *img, \
-t_render_params *render_params)
+int	run_program(t_render_params *render_params)
 {
 	t_hook_data		hook_data;
+	mlx_t			*mlx;
+	mlx_image_t		*img;
 
-	mlx_image_to_window(mlx, img, 0, 0);
+	mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, \
+		render_params->program_name, true);
+	if (!mlx)
+		return (print_error(MLX_ER), 1);
+	img = mlx_new_image(mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	if (!img)
+		return (print_error(MLX_ER), 1);
+	if (mlx_image_to_window(mlx, img, 0, 0) < 0)
+		return (print_error(MLX_ER), 1);
 	init_hook_data(&hook_data, mlx, render_params, img);
 	mlx_key_hook(mlx, escapehook, &hook_data);
 	mlx_resize_hook(mlx, resizehook, &hook_data);
-	mlx_loop_hook(mlx, renderhook, &hook_data);
+	if (!mlx_loop_hook(mlx, renderhook, &hook_data))
+		return (print_error(MLX_ER), 1);
 	mlx_loop(mlx);
-	render_params_destroy(render_params);
 	mlx_terminate(mlx);
+	return (0);
 }
 
 int32_t	main(int ac, char **av)
 {
 	int				fd;
-	mlx_t			*mlx;
-	mlx_image_t		*img;
 	t_render_params	*render_params;
 
 	if (ac != 2)
@@ -67,13 +75,13 @@ int32_t	main(int ac, char **av)
 	render_params = render_params_new();
 	if (render_params == NULL)
 		return (print_error(MALLOC_ER), EXIT_FAILURE);
+	render_params->program_name = ft_basename(av[1]);
+	if (render_params->program_name == NULL)
+		return (print_error(MALLOC_ER), EXIT_FAILURE);
 	if (check_file_args(fd, render_params))
 		return (EXIT_FAILURE);
-	mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "MLX42", true);
-	img = mlx_new_image(mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	if (!mlx)
-		return (print_error(MLX_ER), EXIT_FAILURE);
-	run_program(mlx, img, render_params);
+	if (run_program(render_params))
+		return (EXIT_FAILURE);
 	render_params_destroy(render_params);
 	return (EXIT_SUCCESS);
 }
