@@ -42,9 +42,9 @@ t_vec3	trace_pixel(t_render_params *render_params, double pct_x, double pct_y)
 	t_ray			ray;
 	t_vec3			color;
 
-	ray = camera_generate_ray(render_params->camera, pct_x, pct_y);
+	ray = camera_generate_ray(&render_params->camera, pct_x, pct_y);
 	color = ray_to_color(&ray, render_params->hittables, \
-		render_params->light, render_params->ambient);
+		&render_params->light, &render_params->ambient);
 	color = vec3_clamp(&color, 0, 1);
 	return (color);
 }
@@ -58,7 +58,7 @@ int	render(t_render_params *render_params, \
 
 	if (w == 0 || h == 0)
 		return (1);
-	camera_prepare(render_params->camera, (double)w / (double)h);
+	camera_prepare(&render_params->camera, (double)w / (double)h);
 	x = 0;
 	while (x < w)
 	{

@@ -26,8 +26,8 @@ int	check_ambient(char **str, t_render_params *render_params)
 		check_value_range(str[2], 0.0, 255.0, 3))
 		return (print_error(OUTOFRANGE), 1);
 	render_params->ambient = \
-	protec(ambient_new(convert_array_to_vector(str[2]), \
-	ft_atof(str[1])));
+	ambient_new(convert_array_to_vector(str[2]), \
+	ft_atof(str[1]));
 	return (0);
 }
 
@@ -45,9 +45,8 @@ int	check_camera(char **str, t_render_params *render_params)
 		check_value_range(str[2], -1.0, 1.0, 3) || \
 		check_value_range(str[3], 0.0, 180.0, 1))
 		return (print_error(OUTOFRANGE), 1);
-	render_params->camera = \
-	protec(camera_new(convert_array_to_vector(str[1]), \
-	convert_array_to_vector(str[2]), ft_atof(str[3])));
+	render_params->camera = camera_new(convert_array_to_vector(str[1]), \
+		convert_array_to_vector(str[2]), ft_atof(str[3]));
 	return (0);
 }
 
@@ -68,12 +67,11 @@ int	check_light(char **str, t_render_params *render_params)
 		if (check_value_range(str[3], 0.0, 255.0, 3))
 			return (print_error(OUTOFRANGE), 1);
 		render_params->light = \
-		protec(point_light_new(convert_array_to_vector(str[1]), \
-		convert_array_to_vector(str[3]), ft_atof(str[2])));
+		point_light_new(convert_array_to_vector(str[1]), \
+		convert_array_to_vector(str[3]), ft_atof(str[2]));
 	}
 	else
-		render_params->light = \
-		protec(point_light_new(convert_array_to_vector(str[1]), \
-		vec3_new(255, 255, 255), ft_atof(str[2])));
+		render_params->light = point_light_new(convert_array_to_vector(str[1]), \
+		vec3_new(255, 255, 255), ft_atof(str[2]));
 	return (0);
 }

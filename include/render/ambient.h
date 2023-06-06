@@ -20,8 +20,7 @@ typedef struct s_ambient
 	t_vec3	color;
 }	t_ambient;
 
-t_ambient		*ambient_new(const t_vec3 color, double brightness);
-void			ambient_destroy(t_ambient *ambient);
+t_ambient		ambient_new(const t_vec3 color, double brightness);
 
 const t_vec3	*ambient_color(const t_ambient *ambient);
 

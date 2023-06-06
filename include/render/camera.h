@@ -28,10 +28,8 @@ typedef struct s_camera
 	t_vec3	lower_left_corner;
 }	t_camera;
 
-t_camera	*camera_new(const t_vec3 position, const t_vec3 direction, \
+t_camera	camera_new(const t_vec3 position, const t_vec3 direction, \
 	double hfov);
-
-void		camera_destroy(t_camera *camera);
 
 void		camera_prepare(t_camera *camera, double aspect_ratio);
 

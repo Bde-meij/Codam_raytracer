@@ -16,22 +16,14 @@
 
 #include <stdlib.h>
 
-t_point_light	*point_light_new(const t_vec3 origin, \
+t_point_light	point_light_new(const t_vec3 origin, \
 	const t_vec3 color, double brightness)
 {
-	t_point_light	*new;
+	t_point_light	ret;
 
-	new = malloc(sizeof(t_point_light));
-	if (new == NULL)
-		return (NULL);
-	new->origin = origin;
-	new->color = vec3_scalar_c(vec3_divide_c(color, 255), brightness);
-	return (new);
-}
-
-void	point_light_destroy(t_point_light *light)
-{
-	free(light);
+	ret.origin = origin;
+	ret.color = vec3_scalar_c(vec3_divide_c(color, 255), brightness);
+	return (ret);
 }
 
 t_ray	point_light_generate_ray(const t_point_light *light, \

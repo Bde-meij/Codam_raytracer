@@ -31,7 +31,8 @@ typedef enum e_parse_errors
 	INCOMPLETE,
 	NO_FILMSET,
 	MALLOC_ER,
-	NULL_ARG
+	NULL_ARG,
+	MLX_ER,
 }	t_parse_errors;
 
 typedef struct s_jump_table

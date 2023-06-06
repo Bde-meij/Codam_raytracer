@@ -20,7 +20,8 @@ static const char	*g_error_messages[] = {
 	"An object is incorrectly formatted",
 	"Does not contain proper filmset (C, A and L)",
 	"Malloc has failed us",
-	"Argument was NULL"
+	"Argument was NULL",
+	"Mlx has failed us",
 };
 
 void	print_error(t_parse_errors error_code)
@@ -34,7 +35,7 @@ void	*protec(void *ptr)
 	if (ptr == NULL)
 	{
 		print_error(MALLOC_ER);
-		exit(MALLOC_ER);
+		exit(EXIT_FAILURE);
 	}
 	return (ptr);
 }

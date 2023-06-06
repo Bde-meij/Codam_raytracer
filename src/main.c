@@ -65,12 +65,15 @@ int32_t	main(int ac, char **av)
 	if (fd < 0)
 		return (print_error(WRONGFILE), EXIT_FAILURE);
 	render_params = render_params_new();
+	if (render_params == NULL)
+		return (print_error(MALLOC_ER), EXIT_FAILURE);
 	if (check_file_args(fd, render_params))
 		return (EXIT_FAILURE);
 	mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "MLX42", true);
 	img = mlx_new_image(mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	if (!mlx)
-		return (EXIT_FAILURE);
+		return (print_error(MLX_ER), EXIT_FAILURE);
 	run_program(mlx, img, render_params);
+	render_params_destroy(render_params);
 	return (EXIT_SUCCESS);
 }

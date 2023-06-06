@@ -16,15 +16,12 @@
 #include <stdlib.h>
 #include <float.h>
 
-t_camera	*camera_new(const t_vec3 position, \
+t_camera	camera_new(const t_vec3 position, \
 	const t_vec3 direction, double hfov)
 {
-	t_camera	*ret;
+	t_camera	ret;
 
-	ret = malloc(sizeof(t_camera));
-	if (ret == NULL)
-		return (NULL);
-	camera_update(ret, position, direction, hfov);
+	camera_update(&ret, position, direction, hfov);
 	return (ret);
 }
 
@@ -71,9 +68,4 @@ t_ray	camera_generate_ray(const t_camera *camera, \
 		vec3_scalar(&camera->vertical, height_pct));
 	direction = vec3_subtract(&direction, &camera->position);
 	return (ray_new(&camera->position, &direction, 0, DBL_MAX));
-}
-
-void	camera_destroy(t_camera *camera)
-{
-	free(camera);
 }
