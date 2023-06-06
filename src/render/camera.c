@@ -34,6 +34,8 @@ void	camera_update(t_camera *camera, const t_vec3 position, \
 	camera->position = position;
 	camera->direction = direction;
 	camera->hfov = hfov;
+	if (hfov > 179.5)
+		camera->hfov = 179.5;
 	if (vec3_eq_c(camera->direction, vec3_new(0, 1, 0)))
 		camera->up = vec3_new(0, 0, -1);
 	else if (vec3_eq_c(camera->direction, vec3_new(0, -1, 0)))

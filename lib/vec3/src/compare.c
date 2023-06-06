@@ -13,6 +13,7 @@
 #include "vec3.h"
 
 #include <stdint.h>
+#include <float.h>
 
 bool	vec3_eq(const t_vec3 *lhs, const t_vec3 *rhs)
 {
@@ -21,7 +22,8 @@ bool	vec3_eq(const t_vec3 *lhs, const t_vec3 *rhs)
 	i = 0;
 	while (i < 3)
 	{
-		if (lhs->data[i] != rhs->data[i])
+		if (lhs->data[i] + DBL_EPSILON < rhs->data[i] || \
+			lhs->data[i] - DBL_EPSILON > rhs->data[i])
 			return (0);
 		i++;
 	}
