@@ -56,6 +56,7 @@ int	run_program(t_render_params *render_params)
 	if (!mlx_loop_hook(mlx, renderhook, &hook_data))
 		return (print_error(MLX_ER), 1);
 	mlx_loop(mlx);
+	free(hook_data.image_data);
 	mlx_terminate(mlx);
 	return (0);
 }
