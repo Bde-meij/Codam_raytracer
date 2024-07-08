@@ -9,4 +9,4 @@ the miniRT executable has been created! It wont work without an input file.rt th
 we included some pre-defined configurations, to run these:\
 "./miniRT ../sample-configs/b_day_boy.rt"\
 "./miniRT ../sample-configs/many_pillars.rt"\
-"./miniRT ../sample-configs/sortofmolecule.rt"\
+"./miniRT ../sample-configs/sortofmolecule.rt"
