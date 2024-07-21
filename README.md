@@ -11,3 +11,8 @@ we included some pre-defined configurations, to run these:\
 "./miniRT ../sample-configs/b_day_boy.rt"\
 "./miniRT ../sample-configs/many_pillars.rt"\
 "./miniRT ../sample-configs/sortofmolecule.rt"
+
+
+![Screen Shot 2024-07-21 at 15 45 59](https://github.com/user-attachments/assets/0ab34781-8d25-4783-9b96-db7f9e7e60a3)
+![Screen Shot 2024-07-21 at 15 54 41](https://github.com/user-attachments/assets/7037e383-bcdc-4f91-9112-e3509c00f01a)
+![Screen Shot 2024-07-21 at 15 53 53](https://github.com/user-attachments/assets/68221610-9169-4a89-86e9-79f08bf704f3)
